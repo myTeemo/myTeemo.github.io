@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="光明携带者">
 <meta property="og:description" content="系统环境 操作系统版本  12$ cat/etc/redhat-release// out: CentOS Linux release 7.4.1708 (Core)  mongodb 版本  12$ mongo --version// out: MongoDB shell version: 2.6.12 配置MongoDB Repository 创建 /etc/yum.repos.d/mongo">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-25T03:43:04.008Z">
+<meta property="og:updated_time" content="2018-10-25T03:49:48.492Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MongoDB副本集配置">
 <meta name="twitter:description" content="系统环境 操作系统版本  12$ cat/etc/redhat-release// out: CentOS Linux release 7.4.1708 (Core)  mongodb 版本  12$ mongo --version// out: MongoDB shell version: 2.6.12 配置MongoDB Repository 创建 /etc/yum.repos.d/mongo">
@@ -480,20 +480,99 @@
 <blockquote>
 <p><a href="https://www.jianshu.com/p/d6414b5295b8" target="_blank" rel="noopener">centos7 关闭防火墙和selinux</a></p>
 </blockquote>
-<h3 id="配置主节点"><a href="#配置主节点" class="headerlink" title="配置主节点"></a>配置主节点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">$ mongo</span><br><span class="line">&gt; use admin</span><br><span class="line">&gt; rs.initiate()</span><br><span class="line">&gt; rs.add(<span class="string">"mongo2:27017"</span>)</span><br><span class="line">loit:PRIMARY&gt; rs.addArb(<span class="string">"message:27017"</span>)</span><br><span class="line">loit:PRIMARY&gt; rs.status()</span><br><span class="line">// out </span><br><span class="line">&#123;</span><br><span class="line">        <span class="string">"set"</span> : <span class="string">"myReplSet"</span>,</span><br><span class="line">        <span class="string">"date"</span> : ISODate(<span class="string">"2018-09-23T04:16:10Z"</span>),</span><br><span class="line">        <span class="string">"myState"</span> : 1,</span><br><span class="line">        <span class="string">"members"</span> : [</span><br><span class="line">                &#123;</span><br><span class="line">                        <span class="string">"_id"</span> : 0,</span><br><span class="line">                        <span class="string">"name"</span> : <span class="string">"mongo1:27017"</span>,</span><br><span class="line">                        <span class="string">"health"</span> : 1,</span><br><span class="line">                        <span class="string">"state"</span> : 1,</span><br><span class="line">                        <span class="string">"stateStr"</span> : <span class="string">"PRIMARY"</span>,</span><br><span class="line">                        <span class="string">"uptime"</span> : 8178,</span><br><span class="line">                        <span class="string">"optime"</span> : Timestamp(1537668470, 1),</span><br><span class="line">                        <span class="string">"optimeDate"</span> : ISODate(<span class="string">"2018-09-23T02:07:50Z"</span>),</span><br><span class="line">                        <span class="string">"electionTime"</span> : Timestamp(1537668114, 1),</span><br><span class="line">                        <span class="string">"electionDate"</span> : ISODate(<span class="string">"2018-09-23T02:01:54Z"</span>),</span><br><span class="line">                        <span class="string">"self"</span> : <span class="literal">true</span></span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                        <span class="string">"_id"</span> : 1,</span><br><span class="line">                        <span class="string">"name"</span> : <span class="string">"mongo2:27017"</span>,</span><br><span class="line">                        <span class="string">"health"</span> : 1,</span><br><span class="line">                        <span class="string">"state"</span> : 2,</span><br><span class="line">                        <span class="string">"stateStr"</span> : <span class="string">"SECONDARY"</span>,</span><br><span class="line">                        <span class="string">"uptime"</span> : 8054,</span><br><span class="line">                        <span class="string">"optime"</span> : Timestamp(1537668470, 1),</span><br><span class="line">                        <span class="string">"optimeDate"</span> : ISODate(<span class="string">"2018-09-23T02:07:50Z"</span>),</span><br><span class="line">                        <span class="string">"lastHeartbeat"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),</span><br><span class="line">                        <span class="string">"lastHeartbeatRecv"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),</span><br><span class="line">                        <span class="string">"pingMs"</span> : 3,</span><br><span class="line">                        <span class="string">"syncingTo"</span> : <span class="string">"mongo1:27017"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                        <span class="string">"_id"</span> : 2,</span><br><span class="line">                        <span class="string">"name"</span> : <span class="string">"message:27017"</span>,</span><br><span class="line">                        <span class="string">"health"</span> : 1,</span><br><span class="line">                        <span class="string">"state"</span> : 7,</span><br><span class="line">                        <span class="string">"stateStr"</span> : <span class="string">"ARBITER"</span>,</span><br><span class="line">                        <span class="string">"uptime"</span> : 8176,</span><br><span class="line">                        <span class="string">"lastHeartbeat"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),</span><br><span class="line">                        <span class="string">"lastHeartbeatRecv"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),</span><br><span class="line">                        <span class="string">"pingMs"</span> : 0</span><br><span class="line">                &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="string">"ok"</span> : 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 测试</span></span><br><span class="line">在主库中添加测试测试数据后，在从从库中也会同步；  </span><br><span class="line">如果主库关闭，从库会充当主库；  </span><br><span class="line">此时如果原主库再启动，则变为从库；  </span><br><span class="line"></span><br><span class="line"><span class="comment">### 搭建中遇到的问题  </span></span><br><span class="line">1.在rs.add(hostname:port)时候报 code:13144  </span><br><span class="line">- 注意关闭防火墙，setlinux 或者添加规则  </span><br><span class="line">- 注意注释掉<span class="built_in">bind</span>\_ip = 127.0.0.1 或者改为 <span class="built_in">bind</span>\_ip = 0.0.0.0  </span><br><span class="line">- 注意指定replSet 在 mongod.conf中</span><br><span class="line"></span><br><span class="line"> 参考教程：  </span><br><span class="line"> &gt; [Adding members to Replica Set on MongoDb](https://stackoverflow.com/questions/8963903/adding-members-to-replica-set-on-mongodb)    </span><br><span class="line"></span><br><span class="line">2.在rs.createUser()时报错  </span><br><span class="line">&gt; Error: couldn<span class="string">'t add user: not master at src/mongo/shell/db.js:1004</span></span><br><span class="line"><span class="string">将mongod.conf中的replSet注释掉  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">参考教程：  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&gt; [Can'</span>t create user](https://stackoverflow.com/questions/31387053/cant-create-user)</span><br><span class="line"></span><br><span class="line">3.在从库中无法查看数据库中的数据报 code: 13435  </span><br><span class="line">&gt; error: &#123; <span class="string">"<span class="variable">$err</span>"</span> : <span class="string">"not master and slaveOk=false"</span>, <span class="string">"code"</span> : 13435 &#125;  </span><br><span class="line">注意看错误信息： 不是主机，slaveOk=<span class="literal">false</span>  </span><br><span class="line"></span><br><span class="line">解决方案：</span><br><span class="line">进入mongo控制台  </span><br><span class="line">输入  </span><br><span class="line">\&gt; rs.slaveOk()  </span><br><span class="line">即可  </span><br><span class="line"></span><br><span class="line">参考教程：</span><br><span class="line">&gt; [mongodb, replicates and error: &#123; “<span class="variable">$err</span>” : “not master and slaveOk=<span class="literal">false</span>”, “code” : 13435 &#125;](https://stackoverflow.com/questions/8990158/mongodb-replicates-and-error-err-not-master-and-slaveok-false-code)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 意外情况  </span></span><br><span class="line">1.三个机器只有一个运行 rs.initiate(),如果其他机器运行了，则需要清除  </span><br><span class="line"> </span><br><span class="line">```bash</span><br><span class="line">$ mongo</span><br><span class="line">&gt; use <span class="built_in">local</span></span><br><span class="line">&gt; db.dropDabase()</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br><span class="line">$ service mongod restart</span><br></pre></td></tr></table></figure>
+<h3 id="配置主节点"><a href="#配置主节点" class="headerlink" title="配置主节点"></a>配置主节点</h3><pre><code class="bash">$ mongo
+&gt; use admin
+&gt; rs.initiate()
+&gt; rs.add(<span class="string">"mongo2:27017"</span>)
+loit:PRIMARY&gt; rs.addArb(<span class="string">"message:27017"</span>)
+loit:PRIMARY&gt; rs.status()
+// out 
+{
+        <span class="string">"set"</span> : <span class="string">"myReplSet"</span>,
+        <span class="string">"date"</span> : ISODate(<span class="string">"2018-09-23T04:16:10Z"</span>),
+        <span class="string">"myState"</span> : 1,
+        <span class="string">"members"</span> : [
+                {
+                        <span class="string">"_id"</span> : 0,
+                        <span class="string">"name"</span> : <span class="string">"mongo1:27017"</span>,
+                        <span class="string">"health"</span> : 1,
+                        <span class="string">"state"</span> : 1,
+                        <span class="string">"stateStr"</span> : <span class="string">"PRIMARY"</span>,
+                        <span class="string">"uptime"</span> : 8178,
+                        <span class="string">"optime"</span> : Timestamp(1537668470, 1),
+                        <span class="string">"optimeDate"</span> : ISODate(<span class="string">"2018-09-23T02:07:50Z"</span>),
+                        <span class="string">"electionTime"</span> : Timestamp(1537668114, 1),
+                        <span class="string">"electionDate"</span> : ISODate(<span class="string">"2018-09-23T02:01:54Z"</span>),
+                        <span class="string">"self"</span> : <span class="literal">true</span>
+                },
+                {
+                        <span class="string">"_id"</span> : 1,
+                        <span class="string">"name"</span> : <span class="string">"mongo2:27017"</span>,
+                        <span class="string">"health"</span> : 1,
+                        <span class="string">"state"</span> : 2,
+                        <span class="string">"stateStr"</span> : <span class="string">"SECONDARY"</span>,
+                        <span class="string">"uptime"</span> : 8054,
+                        <span class="string">"optime"</span> : Timestamp(1537668470, 1),
+                        <span class="string">"optimeDate"</span> : ISODate(<span class="string">"2018-09-23T02:07:50Z"</span>),
+                        <span class="string">"lastHeartbeat"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),
+                        <span class="string">"lastHeartbeatRecv"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),
+                        <span class="string">"pingMs"</span> : 3,
+                        <span class="string">"syncingTo"</span> : <span class="string">"mongo1:27017"</span>
+                },
+                {
+                        <span class="string">"_id"</span> : 2,
+                        <span class="string">"name"</span> : <span class="string">"message:27017"</span>,
+                        <span class="string">"health"</span> : 1,
+                        <span class="string">"state"</span> : 7,
+                        <span class="string">"stateStr"</span> : <span class="string">"ARBITER"</span>,
+                        <span class="string">"uptime"</span> : 8176,
+                        <span class="string">"lastHeartbeat"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),
+                        <span class="string">"lastHeartbeatRecv"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),
+                        <span class="string">"pingMs"</span> : 0
+                }
+        ],
+        <span class="string">"ok"</span> : 1
+}
+
+</code></pre>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>在主库中添加测试测试数据后，在从从库中也会同步；<br>如果主库关闭，从库会充当主库；<br>此时如果原主库再启动，则变为从库；  </p>
+<h3 id="搭建中遇到的问题"><a href="#搭建中遇到的问题" class="headerlink" title="搭建中遇到的问题"></a>搭建中遇到的问题</h3><p>1.在rs.add(hostname:port)时候报 code:13144  </p>
+<ul>
+<li>注意关闭防火墙，setlinux 或者添加规则  </li>
+<li>注意注释掉bind_ip = 127.0.0.1 或者改为 bind_ip = 0.0.0.0  </li>
+<li><p>注意指定replSet 在 mongod.conf中</p>
+<p>参考教程：  </p>
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/8963903/adding-members-to-replica-set-on-mongodb" target="_blank" rel="noopener">Adding members to Replica Set on MongoDb</a>    </p>
+</blockquote>
+</li>
+</ul>
+<p>2.在rs.createUser()时报错  </p>
+<blockquote>
+<p>Error: couldn’t add user: not master at src/mongo/shell/db.js:1004<br>将mongod.conf中的replSet注释掉  </p>
+</blockquote>
+<p>参考教程：  </p>
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/31387053/cant-create-user" target="_blank" rel="noopener">Can’t create user</a></p>
+</blockquote>
+<p>3.在从库中无法查看数据库中的数据报 code: 13435  </p>
+<blockquote>
+<p>error: { “$err” : “not master and slaveOk=false”, “code” : 13435 }<br>注意看错误信息： 不是主机，slaveOk=false  </p>
+</blockquote>
+<p>解决方案：<br>进入mongo控制台<br>输入<br>> rs.slaveOk()<br>即可  </p>
+<p>参考教程：</p>
+<blockquote>
+<p><a href="https://stackoverflow.com/questions/8990158/mongodb-replicates-and-error-err-not-master-and-slaveok-false-code" target="_blank" rel="noopener">mongodb, replicates and error: { “$err” : “not master and slaveOk=false”, “code” : 13435 }</a></p>
+</blockquote>
+<h3 id="意外情况"><a href="#意外情况" class="headerlink" title="意外情况"></a>意外情况</h3><p>1.三个机器只有一个运行 rs.initiate(),如果其他机器运行了，则需要清除  </p>
+<p>$ mongo<br>> use local<br>> db.dropDabase()<br>> exit<br>$ service mongod restart  </p>
 <p>2.卸载数据库</p>
 <ul>
-<li>停止服务  </li>
+<li>停止服务<br>$ sudo systemctl stop mongod</li>
+<li>删除安装包<br>$ sudo yum erase $(rpm -qa | grep mongod-org)</li>
+<li>删除数据与日志<br>$ sudo rm -rf /var/log/mongodb<br>$ sudo rm -rf /var/lib/mongo</li>
 </ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl stop mongod</span><br></pre></td></tr></table></figure>
-<ul>
-<li>删除安装包</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum erase $(rpm -qa | grep mongod-org)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>删除数据与日志  </li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm -rf /var/<span class="built_in">log</span>/mongodb</span><br><span class="line">$ sudo rm -rf /var/lib/mongo</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -704,7 +783,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统环境"><span class="nav-number">1.</span> <span class="nav-text">系统环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置MongoDB-Repository"><span class="nav-number">2.</span> <span class="nav-text">配置MongoDB Repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装MongoDB"><span class="nav-number">3.</span> <span class="nav-text">安装MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动MongoDB"><span class="nav-number">4.</span> <span class="nav-text">启动MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开机自启"><span class="nav-number">5.</span> <span class="nav-text">开机自启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置数据库"><span class="nav-number">6.</span> <span class="nav-text">配置数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB数据库角色"><span class="nav-number">7.</span> <span class="nav-text">MongoDB数据库角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB-操作"><span class="nav-number">8.</span> <span class="nav-text">MongoDB 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置各个主机的主机名代替ip地址"><span class="nav-number">9.</span> <span class="nav-text">配置各个主机的主机名代替ip地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置复制集"><span class="nav-number">10.</span> <span class="nav-text">配置复制集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置之前关闭防火墙和selinux"><span class="nav-number">11.</span> <span class="nav-text">配置之前关闭防火墙和selinux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置主节点"><span class="nav-number">12.</span> <span class="nav-text">配置主节点</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统环境"><span class="nav-number">1.</span> <span class="nav-text">系统环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置MongoDB-Repository"><span class="nav-number">2.</span> <span class="nav-text">配置MongoDB Repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装MongoDB"><span class="nav-number">3.</span> <span class="nav-text">安装MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动MongoDB"><span class="nav-number">4.</span> <span class="nav-text">启动MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开机自启"><span class="nav-number">5.</span> <span class="nav-text">开机自启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置数据库"><span class="nav-number">6.</span> <span class="nav-text">配置数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB数据库角色"><span class="nav-number">7.</span> <span class="nav-text">MongoDB数据库角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB-操作"><span class="nav-number">8.</span> <span class="nav-text">MongoDB 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置各个主机的主机名代替ip地址"><span class="nav-number">9.</span> <span class="nav-text">配置各个主机的主机名代替ip地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置复制集"><span class="nav-number">10.</span> <span class="nav-text">配置复制集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置之前关闭防火墙和selinux"><span class="nav-number">11.</span> <span class="nav-text">配置之前关闭防火墙和selinux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置主节点"><span class="nav-number">12.</span> <span class="nav-text">配置主节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">13.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建中遇到的问题"><span class="nav-number">14.</span> <span class="nav-text">搭建中遇到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#意外情况"><span class="nav-number">15.</span> <span class="nav-text">意外情况</span></a></li></ol></div>
             
 
           </div>
