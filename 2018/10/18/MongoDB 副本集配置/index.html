@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-airplane.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-airplane-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-airplane-16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="MongoDB," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="光明携带者" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="系统环境 操作系统版本  12$ cat/etc/redhat-release// out: CentOS Linux release 7.4.1708 (Core)  mongodb 版本  12$ mongo --version// out: MongoDB shell version: 2.6.12 配置MongoDB Repository 创建 /etc/yum.repos.d/mongo">
+<meta name="keywords" content="MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB副本集配置">
+<meta property="og:url" content="http://myhe.me/2018/10/18/MongoDB 副本集配置/index.html">
+<meta property="og:site_name" content="光明携带者">
+<meta property="og:description" content="系统环境 操作系统版本  12$ cat/etc/redhat-release// out: CentOS Linux release 7.4.1708 (Core)  mongodb 版本  12$ mongo --version// out: MongoDB shell version: 2.6.12 配置MongoDB Repository 创建 /etc/yum.repos.d/mongo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-10-25T03:37:09.363Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MongoDB副本集配置">
+<meta name="twitter:description" content="系统环境 操作系统版本  12$ cat/etc/redhat-release// out: CentOS Linux release 7.4.1708 (Core)  mongodb 版本  12$ mongo --version// out: MongoDB shell version: 2.6.12 配置MongoDB Repository 创建 /etc/yum.repos.d/mongo">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://myhe.me/2018/10/18/MongoDB 副本集配置/"/>
+
+
+
+
+
+  <title>MongoDB副本集配置 | 光明携带者</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">光明携带者</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">一只爬来爬去的小虫</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://myhe.me/2018/10/18/MongoDB 副本集配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eilene">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="光明携带者">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MongoDB副本集配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-18T19:28:15+08:00">
+                2018-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MongoDB/" itemprop="url" rel="index">
+                    <span itemprop="name">MongoDB</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="系统环境"><a href="#系统环境" class="headerlink" title="系统环境"></a>系统环境</h3><ul>
+<li>操作系统版本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat/etc/redhat-release</span><br><span class="line">// out: CentOS Linux release 7.4.1708 (Core)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>mongodb 版本</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mongo --version</span><br><span class="line">// out: MongoDB shell version: 2.6.12</span><br></pre></td></tr></table></figure>
+<h3 id="配置MongoDB-Repository"><a href="#配置MongoDB-Repository" class="headerlink" title="配置MongoDB Repository"></a>配置MongoDB Repository</h3><ul>
+<li>创建 /etc/yum.repos.d/mongodb.repo 文件  </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/yum.repos.d/mongodb.repo</span><br></pre></td></tr></table></figure>
+<ul>
+<li>编辑内容：</li>
+</ul>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[mongodb]     </span><br><span class="line">name=MongoDB Repository   </span><br><span class="line">baseurl=http://downloads-distro.mongodb.org/repo/redhat/os/x86_64/             </span><br><span class="line">gpgcheck=<span class="number">0</span>           </span><br><span class="line">enabled=<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>上面的mongdb仓库使用的是mongodb官网的，版本比较老，我安装的时候是2.6.12，如果使用清华大学的mongodb镜像版本为3.2.X</p>
+<h3 id="安装MongoDB"><a href="#安装MongoDB" class="headerlink" title="安装MongoDB"></a>安装MongoDB</h3><p>不管是主、从、还是仲裁，三个都需要安装mongdb</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum install mongodb-org</span><br></pre></td></tr></table></figure>
+<h3 id="启动MongoDB"><a href="#启动MongoDB" class="headerlink" title="启动MongoDB"></a>启动MongoDB</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl start mongod</span><br><span class="line">// or</span><br><span class="line">// $ sudo service mongod start </span><br><span class="line">// 本质上还是执行第一条指令</span><br></pre></td></tr></table></figure>
+<h3 id="开机自启"><a href="#开机自启" class="headerlink" title="开机自启"></a>开机自启</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /sbin/chkconfig mongod on</span><br></pre></td></tr></table></figure>
+<h3 id="配置数据库"><a href="#配置数据库" class="headerlink" title="配置数据库"></a>配置数据库</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ mongo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt; use admin</span><br><span class="line">&gt; db.createUser(</span><br><span class="line">    &#123;</span><br><span class="line">        user: &quot;root&quot;,</span><br><span class="line">        pwd: &quot;root&quot;,</span><br><span class="line">        roles: [&#123;</span><br><span class="line">            role: &quot;userAdminAnyDatabase&quot;,</span><br><span class="line">            db: &quot;admin&quot;</span><br><span class="line">        &#125;]</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line">// 验证权限是否生效</span><br><span class="line">&gt; db.auth(&quot;root&quot;, &quot;root&quot;)</span><br></pre></td></tr></table></figure>
+<h3 id="MongoDB数据库角色"><a href="#MongoDB数据库角色" class="headerlink" title="MongoDB数据库角色"></a>MongoDB数据库角色</h3><ul>
+<li>数据库用户角色： read、 readWrite</li>
+<li>数据库管理角色： dbAdmin、dbOwner、userAdmin</li>
+<li>集群管理角色：clusterAdmin、 clusterManager、clusterMonitor、hostManager  </li>
+<li>备份恢复角色：backup、restore</li>
+<li>所有数据库角色： readAnyDatabase、readWriteAnyDatabase、userAdminAnyDatabase、dbAdminAnyDatabase</li>
+<li>超级用户角色：root</li>
+<li>内部角色： __system</li>
+</ul>
+<p>角色说明</p>
+<blockquote>
+<p>Read 允许用户读指定数据库<br>readWrite 允许用户读写指定数据库<br>dbAdmin 允许用户在指定数据库中执行管理函数，如索引创建、删除、查看统计、或访问system.profile<br>dbOwner 允许用户对某个数据库进行所有操作<br>userAdmin 允许用户向system.users集合写入，可以查找指定数据库里创建、删除和管理用户<br>clusterAdmin 只在admin数据库中可用，赋予用户所有分片和复制集相关函数的管理权限<br>clusterManager 在集群上提供管理和监视行为，这个角色可以访问config和local 数据库，用于分片和复制<br>readAnyDatabase 只在admin数据库中可用，赋予用户所有数据库的读权限<br>readWriteAnyDatabase 只在admin数据库中可用，赋予用户所有书苦苦的读写权限<br>userAdminAnyDatabase 只在admin数据库中可用，赋予用户所有数据库的userAdmin权限<br>dbAdminAnyDatabase 只在admin数据库中可用，赋予用户所有数据库的dbAdmin权限<br>root 只在admin数据库中可用，超级账号，超级权限</p>
+</blockquote>
+<p>参考教程 :</p>
+<blockquote>
+<ol>
+<li><a href="https://www.jianshu.com/p/a4e94bb8a052" target="_blank" rel="noopener">如何对MongoDB 3.2.7进行用户权限管理配置</a>  </li>
+<li><a href="https://docs.mongodb.com/manual/reference/built-in-roles/#cluster-administration-roles" target="_blank" rel="noopener">官方文档</a></li>
+</ol>
+</blockquote>
+<h3 id="MongoDB-操作"><a href="#MongoDB-操作" class="headerlink" title="MongoDB 操作"></a>MongoDB 操作</h3><ol>
+<li>查看mongo 版本<br> $ mongo –version   // or in mongo use &gt; db.version()</li>
+<li>查看所有数据库<br> > show dbs</li>
+<li>查看集合<br> > show collections</li>
+<li>查看用户<br> > show users</li>
+<li>进入数据库<br> > user db-name</li>
+<li>显示数据操作命令<br> > db.help()</li>
+<li>显示指定数据库的集合下的操作命令<br> > db.collection_name.help() </li>
+<li>查找指定数据库的集合，所有的条目<br> > db.collection_name.find()</li>
+<li>查找指定数据库的集合，有条件限制<br> > db.collection_name.find({key: value})<br>  // 查找collection_name集合下的属性为key，值为value的项目  </li>
+<li>删除数据库<br>> db.dropDatabase()</li>
+<li>克隆指定数据库到本机上<br>> db.cloneDatabase(“127.0.0.1”)</li>
+<li>恢复当前数据库<br>> db.repairDatabase()</li>
+<li>获取当前数据库的名字<br>> db.getName() or db  </li>
+<li>查看链接当前db的机器<br>> db.getMongo()</li>
+<li>查看数据库服务器的状态<br>> db.serverStatus()  </li>
+</ol>
+<h3 id="配置各个主机的主机名代替ip地址"><a href="#配置各个主机的主机名代替ip地址" class="headerlink" title="配置各个主机的主机名代替ip地址"></a>配置各个主机的主机名代替ip地址</h3><p>PRIMARY: ip: 192.168.8.126  port: 27017 hostname: mongo1<br>SECONDARY: ip: 192.168.8.128 port: 27017 hostname: mongo2<br>ARBITER: ip: 192.168.8.127 port: 27017 hostname: message  </p>
+<p>以mongo1为例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo hostnamectl <span class="built_in">set</span>-hostname mongo1</span><br></pre></td></tr></table></figure>
+<p>修改各个主机的hosts文件</p>
+<p>mongo1:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># /etc/hosts</span></span><br><span class="line"></span><br><span class="line">127.0.0.1 mongo1</span><br><span class="line">192.168.8.128 mongo2</span><br><span class="line">192.168.8.127 message</span><br></pre></td></tr></table></figure>
+<p>mongo2:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># /etc/hosts</span></span><br><span class="line"></span><br><span class="line">127.0.0.1 mongo2</span><br><span class="line">192.168.8.126 mongo1</span><br><span class="line">192.168.8.127 message</span><br></pre></td></tr></table></figure>
+<p>message（仲裁节点）:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/hosts</span><br><span class="line"></span><br><span class="line"><span class="comment"># /etc/hosts</span></span><br><span class="line"></span><br><span class="line">127.0.0.1 message</span><br><span class="line">192.168.8.126 mongo1</span><br><span class="line">192.168.8.128 mongo2</span><br></pre></td></tr></table></figure>
+<h3 id="配置复制集"><a href="#配置复制集" class="headerlink" title="配置复制集"></a>配置复制集</h3><p>需要在主、从、仲裁中都要配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vim /etc/mongod.conf</span><br><span class="line"></span><br><span class="line"><span class="comment"># /etc/mongod.conf</span></span><br><span class="line"><span class="comment"># 注释 bind_ip = 127.0.0.1</span></span><br><span class="line"><span class="comment"># bind_ip = 127.0.0.1</span></span><br><span class="line"><span class="comment"># 取消replSet的注释，并设置复制集名称</span></span><br><span class="line">replSet=myReplSet</span><br></pre></td></tr></table></figure>
+<p>重启mongodb</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service mongod restart </span><br><span class="line">// or sudo systemctl restart mongod.service</span><br></pre></td></tr></table></figure>
+<h3 id="配置之前关闭防火墙和selinux"><a href="#配置之前关闭防火墙和selinux" class="headerlink" title="配置之前关闭防火墙和selinux"></a>配置之前关闭防火墙和selinux</h3><p>Centos7中已经不使用iptables，默认使用firewall</p>
+<ol>
+<li><p>关闭防火墙  </p>
+<blockquote>
+<p>$ sudo systemctl stop firewalld.service<br>$ sudo systemctl disable firewalld.service # 禁止开机自启</p>
+</blockquote>
+</li>
+<li><p>关闭selinux  </p>
+<blockquote>
+<p>$ sudo vim /etc/sysconfig/selinux</p>
+</blockquote>
+</li>
+</ol>
+<p># /etc/sysconfig/selinux<br>取消注释 #SELINUX=enforcing<br>改为<br>SELINUX=disabled<br>保存退出后 执行<br>$ setenforce 0 // 设置SELINUX状态<br>$ getenforce  // 获取SELINUX状态<br>Permissive</p>
+<p>参考教程：  </p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/d6414b5295b8" target="_blank" rel="noopener">centos7 关闭防火墙和selinux</a></p>
+</blockquote>
+<h3 id="配置主节点"><a href="#配置主节点" class="headerlink" title="配置主节点"></a>配置主节点</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">$ mongo</span><br><span class="line">&gt; use admin</span><br><span class="line">&gt; rs.initiate()</span><br><span class="line">&gt; rs.add(<span class="string">"mongo2:27017"</span>)</span><br><span class="line">loit:PRIMARY&gt; rs.addArb(<span class="string">"message:27017"</span>)</span><br><span class="line">loit:PRIMARY&gt; rs.status()</span><br><span class="line">// out </span><br><span class="line">&#123;</span><br><span class="line">        <span class="string">"set"</span> : <span class="string">"myReplSet"</span>,</span><br><span class="line">        <span class="string">"date"</span> : ISODate(<span class="string">"2018-09-23T04:16:10Z"</span>),</span><br><span class="line">        <span class="string">"myState"</span> : 1,</span><br><span class="line">        <span class="string">"members"</span> : [</span><br><span class="line">                &#123;</span><br><span class="line">                        <span class="string">"_id"</span> : 0,</span><br><span class="line">                        <span class="string">"name"</span> : <span class="string">"mongo1:27017"</span>,</span><br><span class="line">                        <span class="string">"health"</span> : 1,</span><br><span class="line">                        <span class="string">"state"</span> : 1,</span><br><span class="line">                        <span class="string">"stateStr"</span> : <span class="string">"PRIMARY"</span>,</span><br><span class="line">                        <span class="string">"uptime"</span> : 8178,</span><br><span class="line">                        <span class="string">"optime"</span> : Timestamp(1537668470, 1),</span><br><span class="line">                        <span class="string">"optimeDate"</span> : ISODate(<span class="string">"2018-09-23T02:07:50Z"</span>),</span><br><span class="line">                        <span class="string">"electionTime"</span> : Timestamp(1537668114, 1),</span><br><span class="line">                        <span class="string">"electionDate"</span> : ISODate(<span class="string">"2018-09-23T02:01:54Z"</span>),</span><br><span class="line">                        <span class="string">"self"</span> : <span class="literal">true</span></span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                        <span class="string">"_id"</span> : 1,</span><br><span class="line">                        <span class="string">"name"</span> : <span class="string">"mongo2:27017"</span>,</span><br><span class="line">                        <span class="string">"health"</span> : 1,</span><br><span class="line">                        <span class="string">"state"</span> : 2,</span><br><span class="line">                        <span class="string">"stateStr"</span> : <span class="string">"SECONDARY"</span>,</span><br><span class="line">                        <span class="string">"uptime"</span> : 8054,</span><br><span class="line">                        <span class="string">"optime"</span> : Timestamp(1537668470, 1),</span><br><span class="line">                        <span class="string">"optimeDate"</span> : ISODate(<span class="string">"2018-09-23T02:07:50Z"</span>),</span><br><span class="line">                        <span class="string">"lastHeartbeat"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),</span><br><span class="line">                        <span class="string">"lastHeartbeatRecv"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),</span><br><span class="line">                        <span class="string">"pingMs"</span> : 3,</span><br><span class="line">                        <span class="string">"syncingTo"</span> : <span class="string">"mongo1:27017"</span></span><br><span class="line">                &#125;,</span><br><span class="line">                &#123;</span><br><span class="line">                        <span class="string">"_id"</span> : 2,</span><br><span class="line">                        <span class="string">"name"</span> : <span class="string">"message:27017"</span>,</span><br><span class="line">                        <span class="string">"health"</span> : 1,</span><br><span class="line">                        <span class="string">"state"</span> : 7,</span><br><span class="line">                        <span class="string">"stateStr"</span> : <span class="string">"ARBITER"</span>,</span><br><span class="line">                        <span class="string">"uptime"</span> : 8176,</span><br><span class="line">                        <span class="string">"lastHeartbeat"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),</span><br><span class="line">                        <span class="string">"lastHeartbeatRecv"</span> : ISODate(<span class="string">"2018-09-23T04:16:09Z"</span>),</span><br><span class="line">                        <span class="string">"pingMs"</span> : 0</span><br><span class="line">                &#125;</span><br><span class="line">        ],</span><br><span class="line">        <span class="string">"ok"</span> : 1</span><br><span class="line">&#125;</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line"><span class="comment">### 测试</span></span><br><span class="line">在主库中添加测试测试数据后，在从从库中也会同步；  </span><br><span class="line">如果主库关闭，从库会充当主库；  </span><br><span class="line">此时如果原主库再启动，则变为从库；  </span><br><span class="line"></span><br><span class="line"><span class="comment">### 搭建中遇到的问题  </span></span><br><span class="line">1.在rs.add(hostname:port)时候报 code:13144  </span><br><span class="line">- 注意关闭防火墙，setlinux 或者添加规则  </span><br><span class="line">- 注意注释掉<span class="built_in">bind</span>\_ip = 127.0.0.1 或者改为 <span class="built_in">bind</span>\_ip = 0.0.0.0  </span><br><span class="line">- 注意指定replSet 在 mongod.conf中</span><br><span class="line"></span><br><span class="line"> 参考教程：  </span><br><span class="line"> &gt; [Adding members to Replica Set on MongoDb](https://stackoverflow.com/questions/8963903/adding-members-to-replica-set-on-mongodb)    </span><br><span class="line"></span><br><span class="line">2.在rs.createUser()时报错  </span><br><span class="line">&gt; Error: couldn<span class="string">'t add user: not master at src/mongo/shell/db.js:1004</span></span><br><span class="line"><span class="string">将mongod.conf中的replSet注释掉  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">参考教程：  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">&gt; [Can'</span>t create user](https://stackoverflow.com/questions/31387053/cant-create-user)</span><br><span class="line"></span><br><span class="line">3.在从库中无法查看数据库中的数据报 code: 13435  </span><br><span class="line">&gt; error: &#123; <span class="string">"<span class="variable">$err</span>"</span> : <span class="string">"not master and slaveOk=false"</span>, <span class="string">"code"</span> : 13435 &#125;  </span><br><span class="line">注意看错误信息： 不是主机，slaveOk=<span class="literal">false</span>  </span><br><span class="line"></span><br><span class="line">解决方案：</span><br><span class="line">进入mongo控制台  </span><br><span class="line">输入  </span><br><span class="line">\&gt; rs.slaveOk()  </span><br><span class="line">即可  </span><br><span class="line"></span><br><span class="line">参考教程：</span><br><span class="line">&gt; [mongodb, replicates and error: &#123; “<span class="variable">$err</span>” : “not master and slaveOk=<span class="literal">false</span>”, “code” : 13435 &#125;](https://stackoverflow.com/questions/8990158/mongodb-replicates-and-error-err-not-master-and-slaveok-false-code)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 意外情况  </span></span><br><span class="line">1.三个机器只有一个运行 rs.initiate(),如果其他机器运行了，则需要清除  </span><br><span class="line"> </span><br><span class="line">```bash</span><br><span class="line">$ mongo</span><br><span class="line">&gt; use <span class="built_in">local</span></span><br><span class="line">&gt; db.dropDabase()</span><br><span class="line">&gt; <span class="built_in">exit</span></span><br><span class="line">$ service mongod restart</span><br></pre></td></tr></table></figure>
+<p>2.卸载数据库</p>
+<ul>
+<li>停止服务  </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl stop mongod</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除安装包</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo yum erase $(rpm -qa | grep mongod-org)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>删除数据与日志  </li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm -rf /var/<span class="built_in">log</span>/mongodb</span><br><span class="line">$ sudo rm -rf /var/lib/mongo</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/10/24/Java 反射/" rel="prev" title="Java 反射">
+                Java 反射 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Eilene</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/myTeemo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mingyang.hey@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                FRIENDS
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yuuuuuy.top" title="Jae" target="_blank">Jae</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/zhao__zhen" title="阿振" target="_blank">阿振</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统环境"><span class="nav-number">1.</span> <span class="nav-text">系统环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置MongoDB-Repository"><span class="nav-number">2.</span> <span class="nav-text">配置MongoDB Repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装MongoDB"><span class="nav-number">3.</span> <span class="nav-text">安装MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动MongoDB"><span class="nav-number">4.</span> <span class="nav-text">启动MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开机自启"><span class="nav-number">5.</span> <span class="nav-text">开机自启</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置数据库"><span class="nav-number">6.</span> <span class="nav-text">配置数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB数据库角色"><span class="nav-number">7.</span> <span class="nav-text">MongoDB数据库角色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MongoDB-操作"><span class="nav-number">8.</span> <span class="nav-text">MongoDB 操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置各个主机的主机名代替ip地址"><span class="nav-number">9.</span> <span class="nav-text">配置各个主机的主机名代替ip地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置复制集"><span class="nav-number">10.</span> <span class="nav-text">配置复制集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置之前关闭防火墙和selinux"><span class="nav-number">11.</span> <span class="nav-text">配置之前关闭防火墙和selinux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置主节点"><span class="nav-number">12.</span> <span class="nav-text">配置主节点</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eilene</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
