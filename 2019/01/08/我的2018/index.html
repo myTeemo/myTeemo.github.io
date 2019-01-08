@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="科学上网," />
+  <meta name="keywords" content="小记," />
 
 
 
@@ -81,22 +81,22 @@
 
 
 
-<meta name="description" content="AWS 搭梯子 去墙外 今天要和大家分享如何自己快速搭建一个ss服务器，实现科学上网。    准备1.亚马逊的账号，像啥购物账号，以及开发者账号都可以。2.一张信用卡。 为什么使用亚马逊的呢？ 免费 ：亚马逊提供了长达一年的每个月750小时(750/31 = 24.19)的免费时间，也就是说每天时刻在线都不要紧。但是缺点是每个月只有15GB的流量，超出之后就要按流量计费了，所以得实现绑定信用卡，进">
-<meta name="keywords" content="科学上网">
+<meta name="description" content="我的2018年2018年过去一周了才来写这个总结，感觉有一点晚，但是还是想写，这一年来对自己的总结。一年来有过惆怅患失、也有欣喜若狂的时候，总体来说是正能量大于负能量, 这一年来还是不太充实，可能是没有找准自己的方向，明确自己的目标，该怎么做，有些事还没完成，时间就被自己给浪费掉了。马云说：“这个世界是不公平的，怎么可能是公平的，你出生在富人家里，他出生在穷人家中；但是有一件事是公平的，就是每天的">
+<meta name="keywords" content="小记">
 <meta property="og:type" content="article">
-<meta property="og:title" content="AWS 搭建 SS 实现科学上网">
-<meta property="og:url" content="http://eilene.cn/2017/08/10/AWS 搭建 SS 实现科学上网/index.html">
+<meta property="og:title" content="我的2018">
+<meta property="og:url" content="http://eilene.cn/2019/01/08/我的2018/index.html">
 <meta property="og:site_name" content="光明携带者">
-<meta property="og:description" content="AWS 搭梯子 去墙外 今天要和大家分享如何自己快速搭建一个ss服务器，实现科学上网。    准备1.亚马逊的账号，像啥购物账号，以及开发者账号都可以。2.一张信用卡。 为什么使用亚马逊的呢？ 免费 ：亚马逊提供了长达一年的每个月750小时(750/31 = 24.19)的免费时间，也就是说每天时刻在线都不要紧。但是缺点是每个月只有15GB的流量，超出之后就要按流量计费了，所以得实现绑定信用卡，进">
+<meta property="og:description" content="我的2018年2018年过去一周了才来写这个总结，感觉有一点晚，但是还是想写，这一年来对自己的总结。一年来有过惆怅患失、也有欣喜若狂的时候，总体来说是正能量大于负能量, 这一年来还是不太充实，可能是没有找准自己的方向，明确自己的目标，该怎么做，有些事还没完成，时间就被自己给浪费掉了。马云说：“这个世界是不公平的，怎么可能是公平的，你出生在富人家里，他出生在穷人家中；但是有一件事是公平的，就是每天的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://cdn.eilene.cn/login_ec2.png">
-<meta property="og:image" content="http://cdn.eilene.cn/input_rule.png">
-<meta property="og:image" content="http://cdn.eilene.cn/output_rule.png">
-<meta property="og:updated_time" content="2019-01-08T12:25:05.894Z">
+<meta property="og:image" content="http://cdn.eilene.cn/%E6%AF%95%E4%B8%9A.jpg">
+<meta property="og:image" content="http://cdn.eilene.cn/%E5%8D%81%E4%B8%80.jpg">
+<meta property="og:image" content="http://cdn.eilene.cn/NSS.jpg">
+<meta property="og:updated_time" content="2019-01-08T12:20:12.041Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AWS 搭建 SS 实现科学上网">
-<meta name="twitter:description" content="AWS 搭梯子 去墙外 今天要和大家分享如何自己快速搭建一个ss服务器，实现科学上网。    准备1.亚马逊的账号，像啥购物账号，以及开发者账号都可以。2.一张信用卡。 为什么使用亚马逊的呢？ 免费 ：亚马逊提供了长达一年的每个月750小时(750/31 = 24.19)的免费时间，也就是说每天时刻在线都不要紧。但是缺点是每个月只有15GB的流量，超出之后就要按流量计费了，所以得实现绑定信用卡，进">
-<meta name="twitter:image" content="http://cdn.eilene.cn/login_ec2.png">
+<meta name="twitter:title" content="我的2018">
+<meta name="twitter:description" content="我的2018年2018年过去一周了才来写这个总结，感觉有一点晚，但是还是想写，这一年来对自己的总结。一年来有过惆怅患失、也有欣喜若狂的时候，总体来说是正能量大于负能量, 这一年来还是不太充实，可能是没有找准自己的方向，明确自己的目标，该怎么做，有些事还没完成，时间就被自己给浪费掉了。马云说：“这个世界是不公平的，怎么可能是公平的，你出生在富人家里，他出生在穷人家中；但是有一件事是公平的，就是每天的">
+<meta name="twitter:image" content="http://cdn.eilene.cn/%E6%AF%95%E4%B8%9A.jpg">
 
 
 
@@ -126,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="http://eilene.cn/2017/08/10/AWS 搭建 SS 实现科学上网/"/>
+  <link rel="canonical" href="http://eilene.cn/2019/01/08/我的2018/"/>
 
 
 
 
 
-  <title>AWS 搭建 SS 实现科学上网 | 光明携带者</title>
+  <title>我的2018 | 光明携带者</title>
   
 
 
@@ -303,7 +303,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://eilene.cn/2017/08/10/AWS 搭建 SS 实现科学上网/">
+    <link itemprop="mainEntityOfPage" href="http://eilene.cn/2019/01/08/我的2018/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eilene">
@@ -320,7 +320,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">AWS 搭建 SS 实现科学上网</h1>
+          <h1 class="post-title" itemprop="name headline">我的2018</h1>
         
 
         <div class="post-meta">
@@ -332,8 +332,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-10T19:28:15+08:00">
-                2017-08-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-08T17:36:00+08:00">
+                2019-01-08
               </time>
             
 
@@ -355,8 +355,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/科学上网/" itemprop="url" rel="index">
-                    <span itemprop="name">科学上网</span>
+                  <a href="/categories/小记/" itemprop="url" rel="index">
+                    <span itemprop="name">小记</span>
                   </a>
                 </span>
 
@@ -392,35 +392,56 @@
       
 
       
-        <h3 id="AWS-搭梯子-去墙外"><a href="#AWS-搭梯子-去墙外" class="headerlink" title="AWS 搭梯子 去墙外"></a>AWS 搭梯子 去墙外</h3><blockquote>
-<p>今天要和大家分享如何自己快速搭建一个ss服务器，实现科学上网。  </p>
-</blockquote>
-<h4 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h4><p>1.亚马逊的账号，像啥购物账号，以及开发者账号都可以。<br>2.一张信用卡。</p>
-<p>为什么使用亚马逊的呢？</p>
-<p><strong>免费</strong> ：亚马逊提供了长达一年的每个月750小时(750/31 = 24.19)的免费时间，也就是说每天时刻在线都不要紧。但是缺点是每个月只有15GB的流量，超出之后就要按流量计费了，所以得实现绑定信用卡，进行代扣。所以爱看视频的小伙伴，就比较难受了。如果发现自己流量异常请及时关闭服务。</p>
-<h4 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h4><p>1.访问<a href="https://amazonaws-china.com/cn/free/?sc_channel=PS&amp;sc_campaign=acquisition_CN&amp;sc_publisher=baidu&amp;sc_category=pc&amp;sc_medium=cloud_computing_b&amp;sc_content=aws_e&amp;sc_detail=aws&amp;sc_segment=100015848&amp;sc_matchtype=phrase&amp;sc_country=CN&amp;s_kwcid=AL!4422!88!16788701218!!16914971671&amp;ef_id=WWgxdAAAAH4kFQvI:20170727142723:s" target="_blank" rel="noopener">亚马逊开发者平台</a> 注册或登录账户，就不用多说了（<strong>注意</strong>：名字街道之类的都需要英文）。<br>2.然后填写信用卡信息，如果没有信用卡的话，可以去某宝买一个虚拟信用卡（搜索：AWS 虚拟信用卡）,大概也就几块钱，有一定的几率不成功，不过我的运气还好。<br>3.完善后面的信息即可。<br>4.注册完毕后大概需要等一段时间，后台审核通过后即可开始后面的步骤。  </p>
-<h4 id="创建EC2实例"><a href="#创建EC2实例" class="headerlink" title="创建EC2实例"></a>创建EC2实例</h4><p>1.在服务中找到EC2，点击创建EC2实例。<br>2.输入创建的EC2实例名称。<br>3.选择操作系统，个人觉得Ubuntu（默认的版本16.04LTS）就很好。<br>4.选择实例类型免费的话就是t2.micro(1个核心vCPU，1GB内存，8GB存储)。<br>5.然后会生成一个密钥对，该密钥对用于登录服务器，需要妥善保存好，生成的格式为(*.pem)<br>6.等待创建完毕后，系统会分配一个实例。<br>7.进入后台后，启动EC2实例。  </p>
-<ol start="8">
-<li>使用后台给的示例，登录EC2，注意，当前的密钥对存放的位置。<br><img src="http://cdn.eilene.cn/login_ec2.png" alt="login_ec2">  </li>
-</ol>
-<h4 id="安装SS服务"><a href="#安装SS服务" class="headerlink" title="安装SS服务"></a>安装SS服务</h4><p>1.更新软件列表 <figure class="highlight plain"><figcaption><span>apt-get install update```  </span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">2.更新软件 ```sudo apt-get install upgrade```  </span><br><span class="line">3.安装vim和pip   </span><br><span class="line">```sudo apt-get install vim```  </span><br><span class="line">```sudo apt-get install  python-pip python-dev build-essential```   </span><br><span class="line">4. 安装shadowsocks  </span><br><span class="line"> ```sudo pip install shadowsocks ```  </span><br><span class="line">5.配置多账户启动  </span><br><span class="line">&gt; 创建并编辑 sudo vim /etc/shadowsocks.json</span><br></pre></td></tr></table></figure></p>
-<p>{<br>    “server”: “0.0.0.0”,<br>    “local_address”: “127.0.0.1”,<br>    “port_password”: {<br>        “40000”: “123123”,<br>        “40001”: “123123”<br>    },<br>    “timeout”: “600”,<br>    “method”: “aes-256-cfb”,<br>    “fast_open”: false<br>}<br><code>`</code><br>上面是最简单的多账户配置，配置了两个账户，端口为40000和40001，后面为其密码，可以根据需要进行配置。  </p>
-<p>6.启动服务 </p>
-<blockquote>
-<p>$ sudo ssserver -c /etc/shadowsocks.json start &gt; /var/log/shadowsocks.log 2&gt;&amp;1 &amp; </p>
-</blockquote>
-<p>7.终止服务 </p>
-<blockquote>
-<p>$ sudo ssserver -d stop  </p>
-</blockquote>
-<h4 id="配置AWS出入站规则"><a href="#配置AWS出入站规则" class="headerlink" title="配置AWS出入站规则"></a>配置AWS出入站规则</h4><p>1.AWS默认给开启了22端口的ssh服务，想要能使我们配置的端口也能连接就需要配置防火墙的出入站规则。<br>2.在安全组中找到我们的实例，编辑入站规则。<br><img src="http://cdn.eilene.cn/input_rule.png" alt="入站规则"><br>3.同样编辑出站规则。<br><img src="http://cdn.eilene.cn/output_rule.png" alt="出站规则">   </p>
-<p>为了偷懒我就这样配置了，可以根据自己的需要和安全性要求进行配置。 </p>
-<h4 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h4><p>1.配置完毕后，可以使用Mac, Linux, windows, ios，android 的客户端进行连接。<br>2.在后台实例上找到自己的实例的ipv4地址，在客户端配置即可，当然也可使用云解析，让自己的域名解析一下自己的ip，可以免去记忆ip地址的烦恼。<br>3.如果没有意外，应该是可以成功的，小伙伴们有什么问题，可以给我留言哦。</p>
-<p>最后附上ss客户端的下载链接  </p>
-<blockquote>
-<p>Shadowsocks下载链接：  <a href="https://shadowsocks.org/en/download/clients.html" target="_blank" rel="noopener">shadowsocks客户端</a><br>如果发现ss客户端不可用，请尝试低版本，通常会在windows下出现这种问题。 </p>
-</blockquote>
-<h4 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h4><p>1.<a href="https://vivaxyblog.github.io/2015/10/27/build-shadowsocks-server-on-amazon-ec2.html" target="_blank" rel="noopener">如何在亚马逊 EC2 上搭建 Shadowsocks 服务器</a><br>2.<a href="https://medium.com/@3ird/aws-shadowsocks%E9%85%8D%E7%BD%AE-d1c5568af4b" target="_blank" rel="noopener">AWS+Shadowsocks配置</a><br>3.<a href="https://www.5yun.org/1068.html" target="_blank" rel="noopener">Shadowsocks Python版一键安装脚本【失效</a></p>
+        <h3 id="我的2018年"><a href="#我的2018年" class="headerlink" title="我的2018年"></a>我的2018年</h3><p>2018年过去一周了才来写这个总结，感觉有一点晚，但是还是想写，这一年来对自己的总结。一年来有过惆怅患失、也有欣喜若狂的时候，总体来说是正能量大于负能量, 这一年来还是不太充实，可能是没有找准自己的方向，明确自己的目标，该怎么做，有些事还没完成，时间就被自己给浪费掉了。<br>马云说：“这个世界是不公平的，怎么可能是公平的，你出生在富人家里，他出生在穷人家中；但是有一件事是公平的，就是每天的24个小时，每个人都是24小时，在于你如何利用”。<br>是呀，当我看到这句话的时候，就是这样啊，每个人都有时间这种相等的东西。为什么到最后会有千差万别的结果，其在于每一天差一点，日积月累，长年累月，一代又一代，不才造成了今天的不公平吗？一个人要想再后天中追平甚至赶上别人，你就得比别人付出更多的努力。<br>总结一下这一年来每个月自己都干了什么。  </p>
+<h3 id="1月"><a href="#1月" class="headerlink" title="1月"></a>1月</h3><p>结束了2017年12月22日 - 23日的2018年硕士研究生招生考试，开始了真正的放纵自己。那个时候开始毕业设计的开题，虽说，课题在之前已经定了，但是自己也仅仅只进行在一个思考的阶段，对所要做的东西没有清晰的认识，也不知道自己最后要做出什么样的设计。就这样稀里糊涂的查资料，开了题。然后就开始在宿舍为期很长一段的堕落生活，刷剧、看电影、打游戏……<br>早上睡到十二点、起来定个外卖吃个饭，然后接着睡，一直到夜晚，吃完饭后接着躺床上，或者打游戏，夜晚要到十二点-一点才睡觉，很长的一段时间在这种没有目的的生活中度过，可能是考完研之后让自己没有了该做的事情了，觉得什么事都可以放着，反正还有时间。</p>
+<h3 id="2月"><a href="#2月" class="headerlink" title="2月"></a>2月</h3><p>这大概是该放寒假了，先去父亲那儿给他算账、做年终安排，那边比较忙，他自己对这方面有些粗心，自己去可以帮忙看着点，防止有错误发生。大概2月10日左右研究生的初试成绩下来了（303分），本以为已经凉了的成绩，感觉好像有点起死回生、用差强人意来形容吧。然后开始给老师发邮件，担心自己能否有机会被哪个好心的老师给收了，问老师，可否推荐……就这样大年30那天早上才回家的，过年在家呆了半个月，因为老家的规矩比较多，要拜年啊、送灯啊……</p>
+<h3 id="3月"><a href="#3月" class="headerlink" title="3月"></a>3月</h3><p>这可能是我这一年中最为关键的一个月了吧。我依然清晰的记得那时在3月2日，正月十四。经好同学介绍认识了小宇，同时那一天也是我小侄女（安然）出生的日子。初见之，欣喜之。3月5日，我和小宇一同坐车去往学校，我在郑州下，她在安阳下。就这样开始了一段互相了解的时间。同时，这一个月是我准备复试的时间。23日，收到学校，参加复试，我们同行几人，紧急赶往西安，参加复试。总体来说复试顺利，但也有波折吧。之后的感觉让我有些不舒服。</p>
+<h3 id="4月"><a href="#4月" class="headerlink" title="4月"></a>4月</h3><p>刚结束复试，在返程的时候，收到小宇的拒绝，内心喜乐参半，不知如何形容。清明节，回到学校，她回了信阳，我没给她说去了她的学校，在学校吃过一顿饭、逛了一圈后回郑州了。本说一起去武汉，结果变成了她和她的家人去了，😔。难过。。不过好在，清明结束后，我们似乎又和好了，之前是自己的大男子主义让她感到不适了吧，她愿意给我一个新的机会，自然要珍惜。这一个月和龙哥他们回到了王珂老师的实验室，开始了做毕设的道路。</p>
+<h3 id="5月"><a href="#5月" class="headerlink" title="5月"></a>5月</h3><p>劳动节，这也许是我和她最快乐的时光了，去找她了，玩了两天，和她吃吃喝喝，聊聊天感觉也是很开心。我感受到一种满足。回学校后，继续毕设，这段时间一直在处理遇到的各种问题。虽然都是专业技术上的，没有和她聊过这方面。和她聊天的时间逐渐减少。想到她白天有课，所以基本上白天没有和她聊天，在夜晚8-9点的时候才聊。可能这种时间的减少让她感到了不安全。我们开始有了间隔。其实，回想起来，自己真傻，为什么那个不去更主动一下呢。也许，你怕打扰她，而她却不是这样想，她在一直等你呢？  </p>
+<h3 id="6月"><a href="#6月" class="headerlink" title="6月"></a>6月</h3><p>终于有些事情还是要爆发了，之前没有爆发，可能是积累的还不够，没有到达那个点。我们还是分开了，那天，记得快端午节了，去实体店取了预定第二天星巴克的星冰粽送给她，可有些事情来得太快，我只能快马加鞭。买了去安阳的高铁。希望能给她道个歉。可能她真的无法原谅我对她的冷淡和我那大男子的主义，在宿舍楼下等了两个小时，最后收到的电话是回吧。我记得那天的太阳实在刺眼、燥热。没能好好珍惜这段感情，自己的问题更多一些。<br>这个月，自己顺利完成毕业设计、顺利完成毕业答辩、当我穿上学士服、带上学士帽、站在校门口，这四年来的一切又重新回味了一遍。我很感谢我遇到的同学、老师，做过开心的事，克服一些困难，拿到了自己满意的成绩。唯一的遗憾是没有和自己遇到的人走下去。<br><img src="http://cdn.eilene.cn/%E6%AF%95%E4%B8%9A.jpg" alt="毕业"></p>
+<h3 id="7月"><a href="#7月" class="headerlink" title="7月"></a>7月</h3><p>拿完毕业证书、学位证书，送走了好友、室友，看着他们离去的背影，想着也许可能多年不能再见，愿各自安好，前程似锦。学校收回了宿舍，我们考取研究生的几个同学，在杨老师那里，进行一个月的学习。学习一些更为实用、专业的知识、技能，以尽快适应在新学校的研究生生活。通过这一个月的学习。虽然那个时候我感觉用处可能不是太大，但在今天看来，我特别感谢那段时光、让我更为充实。在这里感谢杨老师的培养和教育。</p>
+<h3 id="8月"><a href="#8月" class="headerlink" title="8月"></a>8月</h3><p>结束了一个月的留校学习，我们各自返程回家，我先回到了信阳老家，在那里待了几天，去了父母那儿，那一个月里，也是忙。父亲和他和合作伙伴，分开了，有很多东西需要重新规划，原来的账也需要重新再做。我帮他把这些财务上的东西帮他核对了一遍，同时重新做了一份新账。那时候的想法是，要帮他做一个OA系统，以适应他的需求。可到现在只是把系统的需求提出来，还没有真正开始着手，2019年决定把这个给实现了。</p>
+<h3 id="9月"><a href="#9月" class="headerlink" title="9月"></a>9月</h3><p>开学的日子，怀揣一颗高兴的心情，来到了新的学校-西电。刚开始的感觉还算可以，毕竟复试的时候来过西电。慢慢着开始学习生活、给我的感觉并不好。也许这是到新环境的不适应。来到了新的实验室，让我感到师兄师姐的热情，我想在这里自己可以开始一段新的生活，要努力把自己变得更加强大，不能妄在西电三年硕士。</p>
+<h3 id="10月"><a href="#10月" class="headerlink" title="10月"></a>10月</h3><p>国庆节，小坤坤从北京来西安玩，和子勇带他到鼓楼、钟楼、城墙看看、华山爬爬；骚鑫来西安出差，和他在小寨吃顿饭。我又找回了原有的熟悉感觉。节后，开始实验室、上课、宿舍这几头跑。接触物联网，开始搭环境、熟悉技术、分配任务等等。在完成各项任务的同时，自己也很开心。不过还是有时候会划水。<br><img src="http://cdn.eilene.cn/%E5%8D%81%E4%B8%80.jpg" alt="十一"></p>
+<h3 id="11月"><a href="#11月" class="headerlink" title="11月"></a>11月</h3><p>不太记得什么时候又开始，想起来自己要打游戏来着，但是时日不会太短。每天从实验室回来，要打两把游戏，才能睡觉，养成了坏毛病，自己当时的想法是不上到黄金不罢休。然而越打越低，技术太菜了…… 这中途师兄分配的任务遇到了各种问题，没有搞过硬件方面，也不知道如何下手，在椅子上如坐针毡，那段时间自己的心没能静下来，走了很多弯路，好在最后顺利的完成预定的目标，算是欣慰。最后，还通过团队了努力，拿到了“三好三有”导学团队评选。大家都很努力。<br><img src="http://cdn.eilene.cn/NSS.jpg" alt="NSS团队"></p>
+<h3 id="12月"><a href="#12月" class="headerlink" title="12月"></a>12月</h3><p>大概是距离期末一个月的时候，祝哥说可以开始复习了。这个时候才发现，哇，这个学期快结课了啊，逃了很多课，也不知道要交什么作业，考什么内容，然后就开始节节课去上课，但是还是有点水。但打游戏的时间似乎变多了，经常夜晚上完课回去就开始打，😔，心态不好。直到前几日，终于上到了黄金，但并没有多开心，为自己浪费这么多时间赶到不值。</p>
+<h3 id="新的2019"><a href="#新的2019" class="headerlink" title="新的2019"></a>新的2019</h3><p>回想一年来发生的事情，感觉变化太大，从一个阶段的结束，跳到另一个阶段的开始，会有一些小失落，看到身边的人都离开，有一些小离别，小伤心。天下没有不散的筵席，每个人都有自己需要做的事，要走的路。我们要做的是在每个阶段完成该完成的事，和身边的人用心交流。不辜负自己，也不负他人。我要感谢我的父母对我一直以来的支持，虽说你们不管我，但是有些事我还是要自己学会安排，要学会去料理。知道自己有错误，就需要多加改正，现在回头，也不是很晚。<br>2019年要有更为充实的目标，要更多的提升自己的专业技术能力、对研究反向的思考。同时还要完成一些任务、积极上课，提升自己的英语能力……</p>
+<h4 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h4><table>
+<thead>
+<tr>
+<th style="text-align:center">目标</th>
+<th style="text-align:center">完成度</th>
+<th style="text-align:center">时间线</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">在校课程</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">OA系统</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">英语能力</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">读书</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">专业思考</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -438,7 +459,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/科学上网/" rel="tag"># 科学上网</a>
+            <a href="/tags/小记/" rel="tag"># 小记</a>
           
         </div>
       
@@ -451,8 +472,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/14/Django学习笔记(4)/" rel="next" title="Django 学习笔记(4)">
-                <i class="fa fa-chevron-left"></i> Django 学习笔记(4)
+              <a href="/2018/10/26/Spring Framework- IoC/" rel="next" title="Spring Framework-IoC">
+                <i class="fa fa-chevron-left"></i> Spring Framework-IoC
               </a>
             
           </div>
@@ -460,10 +481,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/01/scrapy下载图片配置/" rel="prev" title="Scrapy下载图片配置">
-                Scrapy下载图片配置 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -636,7 +653,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#AWS-搭梯子-去墙外"><span class="nav-number">1.</span> <span class="nav-text">AWS 搭梯子 去墙外</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#准备"><span class="nav-number">1.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开始"><span class="nav-number">1.2.</span> <span class="nav-text">开始</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建EC2实例"><span class="nav-number">1.3.</span> <span class="nav-text">创建EC2实例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装SS服务"><span class="nav-number">1.4.</span> <span class="nav-text">安装SS服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置AWS出入站规则"><span class="nav-number">1.5.</span> <span class="nav-text">配置AWS出入站规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连接"><span class="nav-number">1.6.</span> <span class="nav-text">连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考文章"><span class="nav-number">1.7.</span> <span class="nav-text">参考文章</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#我的2018年"><span class="nav-number">1.</span> <span class="nav-text">我的2018年</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1月"><span class="nav-number">2.</span> <span class="nav-text">1月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2月"><span class="nav-number">3.</span> <span class="nav-text">2月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3月"><span class="nav-number">4.</span> <span class="nav-text">3月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4月"><span class="nav-number">5.</span> <span class="nav-text">4月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5月"><span class="nav-number">6.</span> <span class="nav-text">5月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6月"><span class="nav-number">7.</span> <span class="nav-text">6月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7月"><span class="nav-number">8.</span> <span class="nav-text">7月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8月"><span class="nav-number">9.</span> <span class="nav-text">8月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9月"><span class="nav-number">10.</span> <span class="nav-text">9月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10月"><span class="nav-number">11.</span> <span class="nav-text">10月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11月"><span class="nav-number">12.</span> <span class="nav-text">11月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12月"><span class="nav-number">13.</span> <span class="nav-text">12月</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新的2019"><span class="nav-number">14.</span> <span class="nav-text">新的2019</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#目标"><span class="nav-number">14.1.</span> <span class="nav-text">目标</span></a></li></ol></li></ol></div>
             
 
           </div>
