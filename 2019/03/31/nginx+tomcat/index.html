@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="#CentOS7 Nginx源码安装 版本信息    CentOS 7.6.1810Nginx 1.14.2    源码安装12345678910$ tar zxf nginx-1.14.2.tar.gz$ cd nginx-1.14.2$ ./configure --with-http_gzip_static_module --with-http_stub_status_module --wit">
+<meta name="description" content="CentOS7 Nginx源码安装版本信息    CentOS 7.6.1810Nginx 1.14.2    源码安装12345678910$ tar zxf nginx-1.14.2.tar.gz$ cd nginx-1.14.2$ ./configure --with-http_gzip_static_module --with-http_stub_status_module --with-">
 <meta name="keywords" content="Tomcat,Nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="nginx+tomcat">
 <meta property="og:url" content="http://eilene.cn/2019/03/31/nginx+tomcat/index.html">
 <meta property="og:site_name" content="光明携带者">
-<meta property="og:description" content="#CentOS7 Nginx源码安装 版本信息    CentOS 7.6.1810Nginx 1.14.2    源码安装12345678910$ tar zxf nginx-1.14.2.tar.gz$ cd nginx-1.14.2$ ./configure --with-http_gzip_static_module --with-http_stub_status_module --wit">
+<meta property="og:description" content="CentOS7 Nginx源码安装版本信息    CentOS 7.6.1810Nginx 1.14.2    源码安装12345678910$ tar zxf nginx-1.14.2.tar.gz$ cd nginx-1.14.2$ ./configure --with-http_gzip_static_module --with-http_stub_status_module --with-">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-31T12:34:54.523Z">
+<meta property="og:updated_time" content="2019-04-01T08:39:08.039Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="nginx+tomcat">
-<meta name="twitter:description" content="#CentOS7 Nginx源码安装 版本信息    CentOS 7.6.1810Nginx 1.14.2    源码安装12345678910$ tar zxf nginx-1.14.2.tar.gz$ cd nginx-1.14.2$ ./configure --with-http_gzip_static_module --with-http_stub_status_module --wit">
+<meta name="twitter:description" content="CentOS7 Nginx源码安装版本信息    CentOS 7.6.1810Nginx 1.14.2    源码安装12345678910$ tar zxf nginx-1.14.2.tar.gz$ cd nginx-1.14.2$ ./configure --with-http_gzip_static_module --with-http_stub_status_module --with-">
 
 
 
@@ -388,8 +388,7 @@
       
 
       
-        <p>#CentOS7 Nginx源码安装</p>
-<p>版本信息  </p>
+        <h1 id="CentOS7-Nginx源码安装"><a href="#CentOS7-Nginx源码安装" class="headerlink" title="CentOS7 Nginx源码安装"></a>CentOS7 Nginx源码安装</h1><p>版本信息  </p>
 <blockquote>
 <p>CentOS 7.6.1810<br>Nginx 1.14.2  </p>
 </blockquote>
@@ -400,8 +399,7 @@
 <p>源码方式安装添加系统服务  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vim /lib/systemd/system/nginx.service</span></span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=nginx</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=oneshot</span><br><span class="line">ExecStart=/usr/<span class="built_in">local</span>/nginx/sbin/nginx </span><br><span class="line">ExecStop=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -s quit</span><br><span class="line">ExecReload=/usr/<span class="built_in">local</span>/nginx/sbin/nginx -s reload</span><br><span class="line">RemainAfterExit=yes</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开机自启</span></span><br><span class="line">$ systemctl <span class="built_in">enable</span> nginx</span><br></pre></td></tr></table></figure>
-<p>#Tomcat安装配置</p>
-<blockquote>
+<h1 id="Tomcat安装配置"><a href="#Tomcat安装配置" class="headerlink" title="Tomcat安装配置"></a>Tomcat安装配置</h1><blockquote>
 <p>下载Tomcat压缩包<br>版本信息: apache-tomcat-7.0.93.zip</p>
 </blockquote>
 <p>设置Tomcat系统服务</p>
@@ -454,6 +452,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/01/CentOS7 mongdb4副本集搭建/" rel="prev" title="CentOS7下MongoDB4副本集搭建">
+                CentOS7下MongoDB4副本集搭建 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -530,7 +532,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -541,7 +543,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -552,7 +554,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -626,7 +628,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#源码安装"><span class="nav-number">1.</span> <span class="nav-text">源码安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置nginx参数"><span class="nav-number">2.</span> <span class="nav-text">配置nginx参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置发布方案"><span class="nav-number"></span> <span class="nav-text">配置发布方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx-站点配置"><span class="nav-number">1.</span> <span class="nav-text">nginx 站点配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat-站点配置"><span class="nav-number">2.</span> <span class="nav-text">Tomcat 站点配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx转发请求至tomcat"><span class="nav-number">3.</span> <span class="nav-text">nginx转发请求至tomcat</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CentOS7-Nginx源码安装"><span class="nav-number">1.</span> <span class="nav-text">CentOS7 Nginx源码安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#源码安装"><span class="nav-number">1.1.</span> <span class="nav-text">源码安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置nginx参数"><span class="nav-number">1.2.</span> <span class="nav-text">配置nginx参数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tomcat安装配置"><span class="nav-number">2.</span> <span class="nav-text">Tomcat安装配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置发布方案"><span class="nav-number">3.</span> <span class="nav-text">配置发布方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx-站点配置"><span class="nav-number">3.1.</span> <span class="nav-text">nginx 站点配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat-站点配置"><span class="nav-number">3.2.</span> <span class="nav-text">Tomcat 站点配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nginx转发请求至tomcat"><span class="nav-number">3.3.</span> <span class="nav-text">nginx转发请求至tomcat</span></a></li></ol></li></ol></div>
             
 
           </div>
