@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="光明携带者">
 <meta property="og:description" content="版本信息 CentOS Linux release 7.6.1810 (Core)   下载MySQL源 由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。     这里master中安装MySQL，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-05T07:56:54.387Z">
+<meta property="og:updated_time" content="2019-04-05T08:31:03.849Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CentOS7下MySQL主从复制搭建">
 <meta name="twitter:description" content="版本信息 CentOS Linux release 7.6.1810 (Core)   下载MySQL源 由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。     这里master中安装MySQL，">
@@ -407,18 +407,45 @@
 <li><a href="https://www.cnblogs.com/gl-developer/p/6170423.html" target="_blank" rel="noopener">MySQL主从复制(Master-Slave)实践</a></li>
 </ul>
 <h1 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h1><ul>
-<li><p>MySQL 安装完毕之后，会生成一个默认的临时密码在 /var/log/msyqld.log 文件中，使用该临时密码登录后需要修改密码  </p>
-<ul>
+<li>MySQL 安装完毕之后，会生成一个默认的临时密码在 /var/log/msyqld.log 文件中，使用该临时密码登录后需要修改密码  </li>
 <li>报错信息为：  </li>
-<li><figure class="highlight plain"><figcaption><span>1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 修改密码：</span><br><span class="line">- ```SET PASSWORD= PASSWORD(&apos;PASSWORD&apos;)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>又出现报错：</p>
-</li>
-<li><figure class="highlight plain"><figcaption><span>1819 (HY000): Your password does not satisfy the current policy requirements```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">	- 这是由于和mysql的密码安全性的策略有关，&apos;validate\_password\_policy&apos;  </span><br><span class="line"></span><br><span class="line">|Policy|Tests Performaed|</span><br><span class="line">|:----|:----|</span><br><span class="line">|0 or LOW|符合一定长度(默认长度一把为8)，最小长度为4，|</span><br><span class="line">|1 or MEDIUM|符合一定长度，含有数字，小写或大写字母，特殊字符|</span><br><span class="line">|2 or STRONG|符合一定长度，数字，小写或大写字母,特殊字符,字典文件|</span><br><span class="line"></span><br><span class="line">解决方法：  </span><br><span class="line"></span><br><span class="line">```bash </span><br><span class="line">mysql&gt; set global validate_password_policy=0; </span><br><span class="line">mysql&gt; set global validate_password_length=4;</span><br><span class="line">mysql&gt; set password = password(&apos;123456&apos;);</span><br></pre></td></tr></table></figure>
-</li>
 </ul>
-</li>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.</span><br></pre></td></tr></table></figure>
+<ul>
+<li>修改密码：</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET PASSWORD= PASSWORD(&apos;PASSWORD&apos;)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>又出现报错：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</span><br></pre></td></tr></table></figure>
+<ul>
+<li>这是由于和mysql的密码安全性的策略有关，”validate_password_policy”</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Policy</th>
+<th style="text-align:left">Tests Performaed</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">0 or LOW</td>
+<td style="text-align:left">符合一定长度(默认长度一把为8)，最小长度为4，</td>
+</tr>
+<tr>
+<td style="text-align:left">1 or MEDIUM</td>
+<td style="text-align:left">符合一定长度，含有数字，小写或大写字母，特殊字符</td>
+</tr>
+<tr>
+<td style="text-align:left">2 or STRONG</td>
+<td style="text-align:left">符合一定长度，数字，小写或大写字母,特殊字符,字典文件</td>
+</tr>
+</tbody>
+</table>
+<p>解决方法：  </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="built_in">set</span> global validate_password_policy=0; </span><br><span class="line">mysql&gt; <span class="built_in">set</span> global validate_password_length=4;</span><br><span class="line">mysql&gt; <span class="built_in">set</span> password = password(<span class="string">'123456'</span>);</span><br></pre></td></tr></table></figure>
 <p>参考文章：  </p>
 <ul>
 <li><a href="https://www.cnblogs.com/ivictor/p/5142809.html" target="_blank" rel="noopener">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</a>  </li>
