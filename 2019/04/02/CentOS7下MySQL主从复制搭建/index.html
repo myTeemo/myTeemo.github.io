@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Django," />
+  <meta name="keywords" content="CentOS,Linux,MySQL," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="Django设置中文和时区1.简体中文设置  LANGUAGE_CODE = ‘zh-Hans’  2.时区设置并取消使用国际时间，改为使用本地时间  TIME_ZONE = ‘Asia/Shanghai’USE_TZ = False  扩展user表12345678910111213141516# -*- coding:utf-8 -*-from django.contrib.auth.mode">
-<meta name="keywords" content="Django">
+<meta name="description" content="版本信息 CentOS Linux release 7.6.1810 (Core)   下载MySQL源 由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。     这里master中安装MySQL，">
+<meta name="keywords" content="CentOS,Linux,MySQL">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Django 学习笔记(1)">
-<meta property="og:url" content="http://eilene.cn/2017/06/30/Django学习笔记(1)/index.html">
+<meta property="og:title" content="CentOS7下MySQL主从复制搭建">
+<meta property="og:url" content="http://eilene.cn/2019/04/02/CentOS7下MySQL主从复制搭建/index.html">
 <meta property="og:site_name" content="光明携带者">
-<meta property="og:description" content="Django设置中文和时区1.简体中文设置  LANGUAGE_CODE = ‘zh-Hans’  2.时区设置并取消使用国际时间，改为使用本地时间  TIME_ZONE = ‘Asia/Shanghai’USE_TZ = False  扩展user表12345678910111213141516# -*- coding:utf-8 -*-from django.contrib.auth.mode">
+<meta property="og:description" content="版本信息 CentOS Linux release 7.6.1810 (Core)   下载MySQL源 由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。     这里master中安装MySQL，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-25T04:28:16.014Z">
+<meta property="og:updated_time" content="2019-04-05T07:56:54.387Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Django 学习笔记(1)">
-<meta name="twitter:description" content="Django设置中文和时区1.简体中文设置  LANGUAGE_CODE = ‘zh-Hans’  2.时区设置并取消使用国际时间，改为使用本地时间  TIME_ZONE = ‘Asia/Shanghai’USE_TZ = False  扩展user表12345678910111213141516# -*- coding:utf-8 -*-from django.contrib.auth.mode">
+<meta name="twitter:title" content="CentOS7下MySQL主从复制搭建">
+<meta name="twitter:description" content="版本信息 CentOS Linux release 7.6.1810 (Core)   下载MySQL源 由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。     这里master中安装MySQL，">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://eilene.cn/2017/06/30/Django学习笔记(1)/"/>
+  <link rel="canonical" href="http://eilene.cn/2019/04/02/CentOS7下MySQL主从复制搭建/"/>
 
 
 
 
 
-  <title>Django 学习笔记(1) | 光明携带者</title>
+  <title>CentOS7下MySQL主从复制搭建 | 光明携带者</title>
   
 
 
@@ -299,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://eilene.cn/2017/06/30/Django学习笔记(1)/">
+    <link itemprop="mainEntityOfPage" href="http://eilene.cn/2019/04/02/CentOS7下MySQL主从复制搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eilene">
@@ -316,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Django 学习笔记(1)</h1>
+          <h1 class="post-title" itemprop="name headline">CentOS7下MySQL主从复制搭建</h1>
         
 
         <div class="post-meta">
@@ -328,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-30T04:57:00+08:00">
-                2017-06-30
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-02T14:35:00+08:00">
+                2019-04-02
               </time>
             
 
@@ -351,8 +351,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Django/" itemprop="url" rel="index">
-                    <span itemprop="name">Django</span>
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
                   </a>
                 </span>
 
@@ -388,27 +388,44 @@
       
 
       
-        <h3 id="Django设置中文和时区"><a href="#Django设置中文和时区" class="headerlink" title="Django设置中文和时区"></a>Django设置中文和时区</h3><p>1.简体中文设置</p>
+        <h1 id="版本信息"><a href="#版本信息" class="headerlink" title="版本信息"></a>版本信息</h1><ul>
+<li>CentOS Linux release 7.6.1810 (Core) </li>
+</ul>
+<h1 id="下载MySQL源"><a href="#下载MySQL源" class="headerlink" title="下载MySQL源"></a>下载MySQL源</h1><blockquote>
+<p>由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。<br>MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。  </p>
+</blockquote>
 <blockquote>
-<p>LANGUAGE_CODE = ‘zh-Hans’</p>
+<p>这里master中安装MySQL，slave中安装MariaDB<br>后来发现slave安装MariaDB后无法同步主库数据，遂改为主从均为MySQL，改后发现正常同步,所以应尽量保持版本的一致性</p>
 </blockquote>
-<p>2.时区设置并取消使用国际时间，改为使用本地时间</p>
-<blockquote>
-<p>TIME_ZONE = ‘Asia/Shanghai’<br>USE_TZ = False</p>
-</blockquote>
-<h3 id="扩展user表"><a href="#扩展user表" class="headerlink" title="扩展user表"></a>扩展user表</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">from</span> django.contrib.auth.models <span class="keyword">import</span> AbstractUser</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserProfile</span><span class="params">(AbstractUser)</span>:</span></span><br><span class="line">	nick_name = models.CharField(max_length=<span class="number">50</span>, verbose_name=<span class="string">u'昵称'</span>, default=<span class="string">''</span>)</span><br><span class="line">	birthday = models.DateField(verbose_name=<span class="string">u'生日'</span>, null=<span class="keyword">True</span>, blank=<span class="keyword">True</span>)</span><br><span class="line">	gender = models.CharField(verbose_name=<span class="string">u'性别'</span>, choice=((<span class="string">'male'</span>, <span class="string">u'男'</span>), (<span class="string">'female'</span>, <span class="string">u'女'</span>) ), default=<span class="string">'female'</span>, max_length=<span class="number">7</span>)</span><br><span class="line">	image = models.ImageField(upload_to=<span class="string">'image/%Y/%m'</span>, default=<span class="string">u'image/default.png'</span>,maxlength=<span class="number">100</span>)</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">__unicode__</span><span class="params">(self)</span>:</span></span><br><span class="line">		<span class="keyword">return</span> self.nick_name</span><br><span class="line">	</span><br><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></span><br><span class="line">		verbose_name = <span class="string">u'用户管理'</span></span><br><span class="line">		verbose_name_plural = verbose_name</span><br></pre></td></tr></table></figure>
-<p>扩展后在settings.py中添加对应配置，告知django使用自己定义的user模型</p>
-<blockquote>
-<p>添加 AUTH_USER_MODEL = ‘自己扩展的USER’ app+model</p>
-</blockquote>
-<h3 id="将应用收放在apps目录下"><a href="#将应用收放在apps目录下" class="headerlink" title="将应用收放在apps目录下"></a>将应用收放在apps目录下</h3><blockquote>
-<p>将多个应用放在一个apps问价下后，还需要setting.py文件下配置搜索目录</p>
-</blockquote>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sys.path.insert(<span class="number">0</span>, os.path.join(BASE_DIR, <span class="string">'apps'</span>))</span><br></pre></td></tr></table></figure>
-<h3 id="使用xadmin后台管理系统"><a href="#使用xadmin后台管理系统" class="headerlink" title="使用xadmin后台管理系统"></a>使用xadmin后台管理系统</h3><p>1.xadmin 的配置文件和django 自带的admin 配置文件类似，将admin.py 修改为 adminx.py  </p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> xadmin <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BaseSetting</span><span class="params">(object)</span>:</span></span><br><span class="line">	enable_themes = <span class="keyword">True</span></span><br><span class="line">	use_bootswatch = <span class="keyword">True</span></span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">xadmin.site.register(views.BaseAdminView, BaseSetting)</span><br></pre></td></tr></table></figure>
-<p>2.xadmin 中修改标题和公司名称以及折叠左侧菜单</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> xadmin <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GlobalSetting</span><span class="params">(object)</span>:</span></span><br><span class="line">	site_title = <span class="string">u'你的标题'</span></span><br><span class="line">	site_footer = <span class="string">u'你的公司'</span></span><br><span class="line">	menu_style = <span class="string">'accordion'</span></span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">xadmin.site.register(view.CommAdminView, GlobalSetting)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master and slave</span></span><br><span class="line"><span class="comment"># 下载yum源</span></span><br><span class="line">$ wget https://repo.mysql.com//mysql80-community-release-el7-2.noarch.rpm</span><br><span class="line"><span class="comment"># 安装源</span></span><br><span class="line">$ rpm -ivh mysql80-community-release-el7-2.noarch.rpm</span><br><span class="line"><span class="comment"># 编辑源</span></span><br><span class="line">$ vim /etc/yum.repos.d/mysql-community.repo</span><br><span class="line"><span class="comment"># edit /etc/yum.repos.d/mysql-community.repo</span></span><br><span class="line"><span class="comment"># 这里安装MySQL5.7</span></span><br><span class="line"><span class="comment"># 将 MySQL 5.7 Community Server enabled=0 改为 enabled=1</span></span><br><span class="line"><span class="comment"># 将 MySQL 8.0 Community Server enabled=1 改为 enabled=0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看yum源是否安装成功</span></span><br><span class="line">$ yum repolist enabled | grep <span class="string">"mysql.*-community.*"</span></span><br><span class="line"><span class="comment"># 安装mysql</span></span><br><span class="line">$ yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master and slave</span></span><br><span class="line"><span class="comment"># 设置编码 /etc/my.cnf</span></span><br><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">character_set_server=utf8</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">------------------------------------------------</span><br><span class="line"><span class="comment"># 查看编码</span></span><br><span class="line">mysql&gt;  show variables like <span class="string">'character%'</span>;</span><br><span class="line">------------------------------------------------</span><br><span class="line"><span class="comment"># 主从复制 /etc/my.cnf</span></span><br><span class="line">[mysqld]</span><br><span class="line">log_bin = binlog <span class="comment"># 启用二进制日志</span></span><br><span class="line">server_id = 22   <span class="comment"># 服务器ID，默认1，一般取ip地址后一字节</span></span><br><span class="line">------------------------------------------------</span><br><span class="line">$ systemctl restart mysqld</span><br><span class="line"></span><br><span class="line"><span class="comment"># master 添加同步共享用户</span></span><br><span class="line">mysql&gt; create user <span class="string">'admin'</span>@<span class="string">'localhost'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; create user <span class="string">'admin'</span>@<span class="string">'10.211.55.24'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; create database admin_test;</span><br><span class="line">mysql&gt; grant all privileges on admin_test.* to admin@localhost identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; grant all privileges on admin_test.* to admin@127.0.0.1 identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; grant all privileges on admin_test.* to admin@10.211.55.24 identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">格式：grant 权限 on 数据库.* to 用户名@登录主机 identified by <span class="string">"密码"</span>;</span><br><span class="line"></span><br><span class="line">mysql&gt; grant replication slave on *.* to <span class="string">'admin'</span>@<span class="string">'10.211.55.24'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; show master status;</span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line">| File          | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |</span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line">| binlog.000001 |     2569 |              |                  |                   |</span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave 添加同步共享用户</span></span><br><span class="line">mysql&gt; create user <span class="string">'admin'</span>@<span class="string">'localhost'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; create user <span class="string">'admin'</span>@<span class="string">'10.211.55.22'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; change master to master_host=<span class="string">'10.211.55.22'</span>,master_user=<span class="string">'admin'</span>,master_password=<span class="string">'admin'</span>,master_log_file=<span class="string">'binlog.000001'</span>,master_log_pos=2569;</span><br><span class="line">mysql&gt; start slave;</span><br><span class="line">mysql&gt; show slave status\G;</span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line"><span class="comment"># ......</span></span><br><span class="line"><span class="comment"># Slave_IO_Running: Yes</span></span><br><span class="line"><span class="comment"># Slave_SQL_Running: Yes</span></span><br><span class="line"><span class="comment"># ......</span></span><br></pre></td></tr></table></figure>
+<p>参考文章：</p>
+<ul>
+<li><a href="https://www.cnblogs.com/wanghetao/p/3806888.html" target="_blank" rel="noopener">MySQL添加用户、删除用户与授权</a></li>
+<li><a href="https://blog.csdn.net/yerongtao/article/details/55260728" target="_blank" rel="noopener">MySQL 5.7 添加用户与授权</a></li>
+<li><a href="https://www.cnblogs.com/xujishou/p/6306765.html" target="_blank" rel="noopener">MySQL5.7 添加用户、删除用户与授权</a></li>
+<li><a href="https://www.cnblogs.com/gl-developer/p/6170423.html" target="_blank" rel="noopener">MySQL主从复制(Master-Slave)实践</a></li>
+</ul>
+<h1 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h1><ul>
+<li><p>MySQL 安装完毕之后，会生成一个默认的临时密码在 /var/log/msyqld.log 文件中，使用该临时密码登录后需要修改密码  </p>
+<ul>
+<li>报错信息为：  </li>
+<li><figure class="highlight plain"><figcaption><span>1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- 修改密码：</span><br><span class="line">- ```SET PASSWORD= PASSWORD(&apos;PASSWORD&apos;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>又出现报错：</p>
+</li>
+<li><figure class="highlight plain"><figcaption><span>1819 (HY000): Your password does not satisfy the current policy requirements```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">	- 这是由于和mysql的密码安全性的策略有关，&apos;validate\_password\_policy&apos;  </span><br><span class="line"></span><br><span class="line">|Policy|Tests Performaed|</span><br><span class="line">|:----|:----|</span><br><span class="line">|0 or LOW|符合一定长度(默认长度一把为8)，最小长度为4，|</span><br><span class="line">|1 or MEDIUM|符合一定长度，含有数字，小写或大写字母，特殊字符|</span><br><span class="line">|2 or STRONG|符合一定长度，数字，小写或大写字母,特殊字符,字典文件|</span><br><span class="line"></span><br><span class="line">解决方法：  </span><br><span class="line"></span><br><span class="line">```bash </span><br><span class="line">mysql&gt; set global validate_password_policy=0; </span><br><span class="line">mysql&gt; set global validate_password_length=4;</span><br><span class="line">mysql&gt; set password = password(&apos;123456&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+</ul>
+<p>参考文章：  </p>
+<ul>
+<li><a href="https://www.cnblogs.com/ivictor/p/5142809.html" target="_blank" rel="noopener">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</a>  </li>
+<li><a href="https://www.cnblogs.com/mylanguage/p/5642899.html" target="_blank" rel="noopener">mysql安全策略</a>  </li>
+<li><a href="https://www.jb51.net/article/87769.htm" target="_blank" rel="noopener">MySQL 密码增强插件</a></li>
+</ul>
+
       
     </div>
     
@@ -425,7 +442,11 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Django/" rel="tag"># Django</a>
+            <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
         </div>
       
@@ -438,15 +459,15 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/04/01/CentOS7 mongdb4副本集搭建/" rel="next" title="CentOS7下MongoDB4副本集搭建">
+                <i class="fa fa-chevron-left"></i> CentOS7下MongoDB4副本集搭建
+              </a>
+            
           </div>
 
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/01/Django学习笔记(2)/" rel="prev" title="Django 学习笔记(2)">
-                Django 学习笔记(2) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -619,7 +640,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Django设置中文和时区"><span class="nav-number">1.</span> <span class="nav-text">Django设置中文和时区</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展user表"><span class="nav-number">2.</span> <span class="nav-text">扩展user表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将应用收放在apps目录下"><span class="nav-number">3.</span> <span class="nav-text">将应用收放在apps目录下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用xadmin后台管理系统"><span class="nav-number">4.</span> <span class="nav-text">使用xadmin后台管理系统</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版本信息"><span class="nav-number">1.</span> <span class="nav-text">版本信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载MySQL源"><span class="nav-number">2.</span> <span class="nav-text">下载MySQL源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q-amp-A"><span class="nav-number">4.</span> <span class="nav-text">Q&amp;A</span></a></li></ol></div>
             
 
           </div>
