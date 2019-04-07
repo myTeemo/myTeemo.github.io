@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="CentOS,Linux,MySQL," />
+  <meta name="keywords" content="Linux," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="版本信息 CentOS Linux release 7.6.1810 (Core)   下载MySQL源 由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。     这里master中安装MySQL，">
-<meta name="keywords" content="CentOS,Linux,MySQL">
+<meta name="description" content="SSH背景 笔者之前对于SSH(Secure Shell, 安全外壳协议)的了解仅仅知道一般用来进行访问远程主机、是用来替代telnet的不安全链接而发展的。常用的也只有ssh和scp，后来发现还有sftp，经过了解知道各个的作用。接下来讲叙述在学习和开发的过程中该如何使用他们。  ssh12345678910111213$ ssh# out:usage: ssh [-46AaCfGgKkMNnq">
+<meta name="keywords" content="Linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CentOS7下MySQL主从复制搭建">
-<meta property="og:url" content="http://eilene.cn/2019/04/02/CentOS7下MySQL主从复制搭建/index.html">
+<meta property="og:title" content="SSH三大利器-ssh、scp、sftp">
+<meta property="og:url" content="http://eilene.cn/2019/04/07/SSH三大利器-ssh、scp、sftp/index.html">
 <meta property="og:site_name" content="光明携带者">
-<meta property="og:description" content="版本信息 CentOS Linux release 7.6.1810 (Core)   下载MySQL源 由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。     这里master中安装MySQL，">
+<meta property="og:description" content="SSH背景 笔者之前对于SSH(Secure Shell, 安全外壳协议)的了解仅仅知道一般用来进行访问远程主机、是用来替代telnet的不安全链接而发展的。常用的也只有ssh和scp，后来发现还有sftp，经过了解知道各个的作用。接下来讲叙述在学习和开发的过程中该如何使用他们。  ssh12345678910111213$ ssh# out:usage: ssh [-46AaCfGgKkMNnq">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-05T08:31:03.849Z">
+<meta property="og:updated_time" content="2019-04-07T13:54:11.247Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CentOS7下MySQL主从复制搭建">
-<meta name="twitter:description" content="版本信息 CentOS Linux release 7.6.1810 (Core)   下载MySQL源 由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。     这里master中安装MySQL，">
+<meta name="twitter:title" content="SSH三大利器-ssh、scp、sftp">
+<meta name="twitter:description" content="SSH背景 笔者之前对于SSH(Secure Shell, 安全外壳协议)的了解仅仅知道一般用来进行访问远程主机、是用来替代telnet的不安全链接而发展的。常用的也只有ssh和scp，后来发现还有sftp，经过了解知道各个的作用。接下来讲叙述在学习和开发的过程中该如何使用他们。  ssh12345678910111213$ ssh# out:usage: ssh [-46AaCfGgKkMNnq">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://eilene.cn/2019/04/02/CentOS7下MySQL主从复制搭建/"/>
+  <link rel="canonical" href="http://eilene.cn/2019/04/07/SSH三大利器-ssh、scp、sftp/"/>
 
 
 
 
 
-  <title>CentOS7下MySQL主从复制搭建 | 光明携带者</title>
+  <title>SSH三大利器-ssh、scp、sftp | 光明携带者</title>
   
 
 
@@ -299,7 +299,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://eilene.cn/2019/04/02/CentOS7下MySQL主从复制搭建/">
+    <link itemprop="mainEntityOfPage" href="http://eilene.cn/2019/04/07/SSH三大利器-ssh、scp、sftp/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Eilene">
@@ -316,7 +316,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">CentOS7下MySQL主从复制搭建</h1>
+          <h1 class="post-title" itemprop="name headline">SSH三大利器-ssh、scp、sftp</h1>
         
 
         <div class="post-meta">
@@ -328,8 +328,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-02T14:35:00+08:00">
-                2019-04-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-07T21:21:00+08:00">
+                2019-04-07
               </time>
             
 
@@ -388,69 +388,27 @@
       
 
       
-        <h1 id="版本信息"><a href="#版本信息" class="headerlink" title="版本信息"></a>版本信息</h1><ul>
-<li>CentOS Linux release 7.6.1810 (Core) </li>
-</ul>
-<h1 id="下载MySQL源"><a href="#下载MySQL源" class="headerlink" title="下载MySQL源"></a>下载MySQL源</h1><blockquote>
-<p>由于MySQL已被Oracle收购，存在闭源的风险，所以在CentOS7中已将MySQL从CentOS的默认软件中删除，换成了MariaDB。<br>MariaDB是MySQL的一个分支，完全兼容MySQL。同时又更新了一些新功能。其性能比MySQL要更好。  </p>
+        <h1 id="SSH背景"><a href="#SSH背景" class="headerlink" title="SSH背景"></a>SSH背景</h1><blockquote>
+<p>笔者之前对于SSH(Secure Shell, 安全外壳协议)的了解仅仅知道一般用来进行访问远程主机、是用来替代telnet的不安全链接而发展的。常用的也只有ssh和scp，后来发现还有sftp，经过了解知道各个的作用。接下来讲叙述在学习和开发的过程中该如何使用他们。</p>
 </blockquote>
-<blockquote>
-<p>这里master中安装MySQL，slave中安装MariaDB<br>后来发现slave安装MariaDB后无法同步主库数据，遂改为主从均为MySQL，改后发现正常同步,所以应尽量保持版本的一致性</p>
+<h1 id="ssh"><a href="#ssh" class="headerlink" title="ssh"></a>ssh</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ ssh</span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line">usage: ssh [-46AaCfGgKkMNnqsTtVvXxYy] [-B bind_interface]</span><br><span class="line">           [-b bind_address] [-c cipher_spec] [-D [bind_address:]port]</span><br><span class="line">           [-E log_file] [-e escape_char] [-F configfile] [-I pkcs11]</span><br><span class="line">           [-i identity_file] [-J [user@]host[:port]] [-L address]</span><br><span class="line">           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]</span><br><span class="line">           [-Q query_option] [-R address] [-S ctl_path] [-W host:port]</span><br><span class="line">           [-w local_tun[:remote_tun]] destination [<span class="built_in">command</span>]</span><br><span class="line"><span class="comment"># eg：</span></span><br><span class="line">$ ssh -p 50000 root@192.168.10.10</span><br><span class="line"><span class="comment"># 这个应该是用的最多的命令了，由于SSH的默认端口为22，</span></span><br><span class="line"><span class="comment"># 通常情况下对于没有独立ip的情况下，有时候会使用NAT技术会将22端口映射出来，这时候就需要加上-p指定端口</span></span><br></pre></td></tr></table></figure>
+<h1 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h1><blockquote>
+<p>scp和cp命令相似，都是文件拷贝的命令，可以将本地文件拷贝到远程主机的目录下，也可以将远程主机文件拷贝到本地目录来。但是scp是安全的文件拷贝</p>
 </blockquote>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master and slave</span></span><br><span class="line"><span class="comment"># 下载yum源</span></span><br><span class="line">$ wget https://repo.mysql.com//mysql80-community-release-el7-2.noarch.rpm</span><br><span class="line"><span class="comment"># 安装源</span></span><br><span class="line">$ rpm -ivh mysql80-community-release-el7-2.noarch.rpm</span><br><span class="line"><span class="comment"># 编辑源</span></span><br><span class="line">$ vim /etc/yum.repos.d/mysql-community.repo</span><br><span class="line"><span class="comment"># edit /etc/yum.repos.d/mysql-community.repo</span></span><br><span class="line"><span class="comment"># 这里安装MySQL5.7</span></span><br><span class="line"><span class="comment"># 将 MySQL 5.7 Community Server enabled=0 改为 enabled=1</span></span><br><span class="line"><span class="comment"># 将 MySQL 8.0 Community Server enabled=1 改为 enabled=0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看yum源是否安装成功</span></span><br><span class="line">$ yum repolist enabled | grep <span class="string">"mysql.*-community.*"</span></span><br><span class="line"><span class="comment"># 安装mysql</span></span><br><span class="line">$ yum -y install mysql-community-server</span><br></pre></td></tr></table></figure>
-<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># master and slave</span></span><br><span class="line"><span class="comment"># 设置编码 /etc/my.cnf</span></span><br><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">character_set_server=utf8</span><br><span class="line">collation-server = utf8_general_ci</span><br><span class="line">------------------------------------------------</span><br><span class="line"><span class="comment"># 查看编码</span></span><br><span class="line">mysql&gt;  show variables like <span class="string">'character%'</span>;</span><br><span class="line">------------------------------------------------</span><br><span class="line"><span class="comment"># 主从复制 /etc/my.cnf</span></span><br><span class="line">[mysqld]</span><br><span class="line">log_bin = binlog <span class="comment"># 启用二进制日志</span></span><br><span class="line">server_id = 22   <span class="comment"># 服务器ID，默认1，一般取ip地址后一字节</span></span><br><span class="line">------------------------------------------------</span><br><span class="line">$ systemctl restart mysqld</span><br><span class="line"></span><br><span class="line"><span class="comment"># master 添加同步共享用户</span></span><br><span class="line">mysql&gt; create user <span class="string">'admin'</span>@<span class="string">'localhost'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; create user <span class="string">'admin'</span>@<span class="string">'10.211.55.24'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; create database admin_test;</span><br><span class="line">mysql&gt; grant all privileges on admin_test.* to admin@localhost identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; grant all privileges on admin_test.* to admin@127.0.0.1 identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; grant all privileges on admin_test.* to admin@10.211.55.24 identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">格式：grant 权限 on 数据库.* to 用户名@登录主机 identified by <span class="string">"密码"</span>;</span><br><span class="line"></span><br><span class="line">mysql&gt; grant replication slave on *.* to <span class="string">'admin'</span>@<span class="string">'10.211.55.24'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; show master status;</span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line">| File          | Position | Binlog_Do_DB | Binlog_Ignore_DB | Executed_Gtid_Set |</span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line">| binlog.000001 |     2569 |              |                  |                   |</span><br><span class="line">+---------------+----------+--------------+------------------+-------------------+</span><br><span class="line">1 row <span class="keyword">in</span> <span class="built_in">set</span> (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="comment"># slave 添加同步共享用户</span></span><br><span class="line">mysql&gt; create user <span class="string">'admin'</span>@<span class="string">'localhost'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; create user <span class="string">'admin'</span>@<span class="string">'10.211.55.22'</span> identified by <span class="string">'admin'</span>;</span><br><span class="line">mysql&gt; change master to master_host=<span class="string">'10.211.55.22'</span>,master_user=<span class="string">'admin'</span>,master_password=<span class="string">'admin'</span>,master_log_file=<span class="string">'binlog.000001'</span>,master_log_pos=2569;</span><br><span class="line">mysql&gt; start slave;</span><br><span class="line">mysql&gt; show slave status\G;</span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line"><span class="comment"># ......</span></span><br><span class="line"><span class="comment"># Slave_IO_Running: Yes</span></span><br><span class="line"><span class="comment"># Slave_SQL_Running: Yes</span></span><br><span class="line"><span class="comment"># ......</span></span><br></pre></td></tr></table></figure>
-<p>参考文章：</p>
-<ul>
-<li><a href="https://www.cnblogs.com/wanghetao/p/3806888.html" target="_blank" rel="noopener">MySQL添加用户、删除用户与授权</a></li>
-<li><a href="https://blog.csdn.net/yerongtao/article/details/55260728" target="_blank" rel="noopener">MySQL 5.7 添加用户与授权</a></li>
-<li><a href="https://www.cnblogs.com/xujishou/p/6306765.html" target="_blank" rel="noopener">MySQL5.7 添加用户、删除用户与授权</a></li>
-<li><a href="https://www.cnblogs.com/gl-developer/p/6170423.html" target="_blank" rel="noopener">MySQL主从复制(Master-Slave)实践</a></li>
-</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ scp</span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line">usage: scp [-346BCpqrv] [-c cipher] [-F ssh_config] [-i identity_file]</span><br><span class="line">           [-l <span class="built_in">limit</span>] [-o ssh_option] [-P port] [-S program] <span class="built_in">source</span> ... target</span><br><span class="line"><span class="comment"># eg:</span></span><br><span class="line">$ scp -P 50000 /tmp/test.txt root@192.168.10.10:/tmp</span><br><span class="line"><span class="comment"># 将本地/tmp/test.txt上传到192.168.10.10这个ip地址对应的主机的/tmp目录下</span></span><br></pre></td></tr></table></figure>
+<h1 id="sftp"><a href="#sftp" class="headerlink" title="sftp"></a>sftp</h1><blockquote>
+<p>这个命令我用的极少，经了解其实sftp和ftp相似，由于ftp是不安全的的协议，在Linux操作系统中ftp的实现软件叫做vsftp，而sftp是基于SSH协议基础上，带有安全的文件传输。他的用法也极为简单</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">$ sftp</span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line">usage: sftp [-46aCfpqrv] [-B buffer_size] [-b batchfile] [-c cipher]</span><br><span class="line">          [-D sftp_server_path] [-F ssh_config] [-i identity_file] [-l <span class="built_in">limit</span>]</span><br><span class="line">          [-o ssh_option] [-P port] [-R num_requests] [-S program]</span><br><span class="line">          [-s subsystem | sftp_server] destination</span><br><span class="line"></span><br><span class="line"><span class="comment"># eg:</span></span><br><span class="line">$ sftp -P 50000 root@192.168.10.10</span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line"><span class="comment"># sftp&gt; </span></span><br><span class="line">-------------------------------------------------------------------------------------</span><br><span class="line">sftp&gt; <span class="built_in">help</span></span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line">Available commands:</span><br><span class="line"><span class="built_in">bye</span>                                Quit sftp</span><br><span class="line"><span class="built_in">cd</span> path                            Change remote directory to <span class="string">'path'</span></span><br><span class="line">chgrp grp path                     Change group of file <span class="string">'path'</span> to <span class="string">'grp'</span></span><br><span class="line">chmod mode path                    Change permissions of file <span class="string">'path'</span> to <span class="string">'mode'</span></span><br><span class="line">chown own path                     Change owner of file <span class="string">'path'</span> to <span class="string">'own'</span></span><br><span class="line">df [-hi] [path]                    Display statistics <span class="keyword">for</span> current directory or</span><br><span class="line">                                   filesystem containing <span class="string">'path'</span></span><br><span class="line"><span class="built_in">exit</span>                               Quit sftp</span><br><span class="line">get [-afPpRr] remote [<span class="built_in">local</span>]       Download file</span><br><span class="line">reget [-fPpRr] remote [<span class="built_in">local</span>]      Resume download file</span><br><span class="line">reput [-fPpRr] [<span class="built_in">local</span>] remote      Resume upload file</span><br><span class="line"><span class="built_in">help</span>                               Display this <span class="built_in">help</span> text</span><br><span class="line">lcd path                           Change <span class="built_in">local</span> directory to <span class="string">'path'</span></span><br><span class="line">lls [ls-options [path]]            Display <span class="built_in">local</span> directory listing</span><br><span class="line">lmkdir path                        Create <span class="built_in">local</span> directory</span><br><span class="line">ln [-s] oldpath newpath            Link remote file (-s <span class="keyword">for</span> symlink)</span><br><span class="line">lpwd                               Print <span class="built_in">local</span> working directory</span><br><span class="line">ls [-1afhlnrSt] [path]             Display remote directory listing</span><br><span class="line">lumask <span class="built_in">umask</span>                       Set <span class="built_in">local</span> <span class="built_in">umask</span> to <span class="string">'umask'</span></span><br><span class="line">mkdir path                         Create remote directory</span><br><span class="line">progress                           Toggle display of progress meter</span><br><span class="line">put [-afPpRr] <span class="built_in">local</span> [remote]       Upload file</span><br><span class="line"><span class="built_in">pwd</span>                                Display remote working directory</span><br><span class="line">quit                               Quit sftp</span><br><span class="line">rename oldpath newpath             Rename remote file</span><br><span class="line">rm path                            Delete remote file</span><br><span class="line">rmdir path                         Remove remote directory</span><br><span class="line">symlink oldpath newpath            Symlink remote file</span><br><span class="line">version                            Show SFTP version</span><br><span class="line">!<span class="built_in">command</span>                           Execute <span class="string">'command'</span> <span class="keyword">in</span> <span class="built_in">local</span> shell</span><br><span class="line">!                                  Escape to <span class="built_in">local</span> shell</span><br><span class="line">?                                  Synonym <span class="keyword">for</span> <span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+<p><strong>注意：</strong> ssh中的-p与 scp和sftp中的-P不一样，在实际操作的过程中可能出现错误。要多加注意。</p>
 <h1 id="Q-amp-A"><a href="#Q-amp-A" class="headerlink" title="Q&amp;A"></a>Q&amp;A</h1><ul>
-<li>MySQL 安装完毕之后，会生成一个默认的临时密码在 /var/log/msyqld.log 文件中，使用该临时密码登录后需要修改密码  </li>
-<li>报错信息为：  </li>
+<li>其实关于SSH的只是还有很多比如免密连接，使用ssh-keygen生成公钥和私钥，在以后连接之后就不需要在输入密码等。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1820 (HY000): You must reset your password using ALTER USER statement before executing this statement.</span><br></pre></td></tr></table></figure>
-<ul>
-<li>修改密码：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET PASSWORD= PASSWORD(&apos;PASSWORD&apos;)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>又出现报错：</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</span><br></pre></td></tr></table></figure>
-<ul>
-<li>这是由于和mysql的密码安全性的策略有关，”validate_password_policy”</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Policy</th>
-<th style="text-align:left">Tests Performaed</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">0 or LOW</td>
-<td style="text-align:left">符合一定长度(默认长度一把为8)，最小长度为4，</td>
-</tr>
-<tr>
-<td style="text-align:left">1 or MEDIUM</td>
-<td style="text-align:left">符合一定长度，含有数字，小写或大写字母，特殊字符</td>
-</tr>
-<tr>
-<td style="text-align:left">2 or STRONG</td>
-<td style="text-align:left">符合一定长度，数字，小写或大写字母,特殊字符,字典文件</td>
-</tr>
-</tbody>
-</table>
-<p>解决方法：  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; <span class="built_in">set</span> global validate_password_policy=0; </span><br><span class="line">mysql&gt; <span class="built_in">set</span> global validate_password_length=4;</span><br><span class="line">mysql&gt; <span class="built_in">set</span> password = password(<span class="string">'123456'</span>);</span><br></pre></td></tr></table></figure>
-<p>参考文章：  </p>
-<ul>
-<li><a href="https://www.cnblogs.com/ivictor/p/5142809.html" target="_blank" rel="noopener">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</a>  </li>
-<li><a href="https://www.cnblogs.com/mylanguage/p/5642899.html" target="_blank" rel="noopener">mysql安全策略</a>  </li>
-<li><a href="https://www.jb51.net/article/87769.htm" target="_blank" rel="noopener">MySQL 密码增强插件</a></li>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
+<li><a href="https://linuxstory.org/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server/" target="_blank" rel="noopener">手把手教你使用 SFTP 安全地传输文件</a></li>
+<li><a href="https://cloud.tencent.com/developer/article/1042350" target="_blank" rel="noopener">说说SSH、SCP和SFTP的那些事儿</a></li>
+<li><a href="https://www.cnblogs.com/djh-create/p/6896426.html" target="_blank" rel="noopener">【转载】ssh-keygen 基本用法 </a></li>
+<li><a href="https://blog.csdn.net/qq_38570571/article/details/79268426" target="_blank" rel="noopener">ssh-keygen的使用方法以及ssh-keygen参数说明</a></li>
 </ul>
 
       
@@ -469,11 +427,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/CentOS/" rel="tag"># CentOS</a>
-          
             <a href="/tags/Linux/" rel="tag"># Linux</a>
-          
-            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
           
         </div>
       
@@ -486,8 +440,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/01/CentOS7 mongdb4副本集搭建/" rel="next" title="CentOS7下MongoDB4副本集搭建">
-                <i class="fa fa-chevron-left"></i> CentOS7下MongoDB4副本集搭建
+              <a href="/2019/04/02/CentOS7下MySQL主从复制搭建/" rel="next" title="CentOS7下MySQL主从复制搭建">
+                <i class="fa fa-chevron-left"></i> CentOS7下MySQL主从复制搭建
               </a>
             
           </div>
@@ -495,10 +449,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/07/SSH三大利器-ssh、scp、sftp/" rel="prev" title="SSH三大利器-ssh、scp、sftp">
-                SSH三大利器-ssh、scp、sftp <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -671,7 +621,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版本信息"><span class="nav-number">1.</span> <span class="nav-text">版本信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#下载MySQL源"><span class="nav-number">2.</span> <span class="nav-text">下载MySQL源</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q-amp-A"><span class="nav-number">4.</span> <span class="nav-text">Q&amp;A</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH背景"><span class="nav-number">1.</span> <span class="nav-text">SSH背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ssh"><span class="nav-number">2.</span> <span class="nav-text">ssh</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#scp"><span class="nav-number">3.</span> <span class="nav-text">scp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#sftp"><span class="nav-number">4.</span> <span class="nav-text">sftp</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Q-amp-A"><span class="nav-number">5.</span> <span class="nav-text">Q&amp;A</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">6.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
             
 
           </div>
