@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-airplane.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-airplane-32x32.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-airplane-16x16.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CentOS,Linux,Nagios," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="光明携带者" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="版本信息 CentOS Linux release 7.6.1810 (Core)（最小化版) nagios-4.4.3 (最新稳定版) nagios-plugins-2.2.1 nrpe-3.2.1  关闭防火墙12345678$ systemctl stop firewalld$ systemctl disable firewalld$ vim /etc/selinuc/config# mod">
+<meta name="keywords" content="CentOS,Linux,Nagios">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS7下Nagios监控搭建">
+<meta property="og:url" content="http://eilene.cn/2019/04/10/CentOS7下Nagios监控搭建/index.html">
+<meta property="og:site_name" content="光明携带者">
+<meta property="og:description" content="版本信息 CentOS Linux release 7.6.1810 (Core)（最小化版) nagios-4.4.3 (最新稳定版) nagios-plugins-2.2.1 nrpe-3.2.1  关闭防火墙12345678$ systemctl stop firewalld$ systemctl disable firewalld$ vim /etc/selinuc/config# mod">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-11T03:31:17.568Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CentOS7下Nagios监控搭建">
+<meta name="twitter:description" content="版本信息 CentOS Linux release 7.6.1810 (Core)（最小化版) nagios-4.4.3 (最新稳定版) nagios-plugins-2.2.1 nrpe-3.2.1  关闭防火墙12345678$ systemctl stop firewalld$ systemctl disable firewalld$ vim /etc/selinuc/config# mod">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://eilene.cn/2019/04/10/CentOS7下Nagios监控搭建/"/>
+
+
+
+
+
+  <title>CentOS7下Nagios监控搭建 | 光明携带者</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">光明携带者</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">只要坚持，梦想总是能够实现的</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://eilene.cn/2019/04/10/CentOS7下Nagios监控搭建/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Eilene">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="光明携带者">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">CentOS7下Nagios监控搭建</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-10T20:57:00+08:00">
+                2019-04-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="版本信息"><a href="#版本信息" class="headerlink" title="版本信息"></a>版本信息</h1><ul>
+<li>CentOS Linux release 7.6.1810 (Core)（最小化版)</li>
+<li><a href="https://assets.nagios.com/downloads/nagioscore/releases/nagios-4.4.3.tar.gz" target="_blank" rel="noopener">nagios-4.4.3 (最新稳定版)</a></li>
+<li><a href="https://nagios-plugins.org/download/nagios-plugins-2.2.1.tar.gz" target="_blank" rel="noopener">nagios-plugins-2.2.1</a></li>
+<li><a href="https://github.com/NagiosEnterprises/nrpe/releases/download/nrpe-3.2.1/nrpe-3.2.1.tar.gz" target="_blank" rel="noopener">nrpe-3.2.1</a></li>
+</ul>
+<h1 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl stop firewalld</span><br><span class="line">$ systemctl <span class="built_in">disable</span> firewalld</span><br><span class="line"></span><br><span class="line">$ vim /etc/selinuc/config</span><br><span class="line"><span class="comment"># modify:  SELINUX=enforcing ---&gt; SELINUX=disabled</span></span><br><span class="line">$ setenforce 0</span><br><span class="line">$ getenforce</span><br><span class="line"><span class="comment"># out: Permissive</span></span><br></pre></td></tr></table></figure>
+<p><strong>注：</strong>如果在生产环境中不能关闭防火墙的话可以开放端口的形式，制定相应的规则，可以参考之前写的文章如何写防火墙规则。<a href="http://eilene.cn/2019/04/01/CentOS7%20mongdb4%E5%89%AF%E6%9C%AC%E9%9B%86%E6%90%AD%E5%BB%BA/">防火墙暴露端口</a></p>
+<h1 id="监控主机配置-ip-10-211-55-24"><a href="#监控主机配置-ip-10-211-55-24" class="headerlink" title="监控主机配置(ip:10.211.55.24)"></a>监控主机配置(ip:10.211.55.24)</h1><blockquote>
+<p>三个软件均需要安装</p>
+</blockquote>
+<h2 id="安装Nagios需要的软件"><a href="#安装Nagios需要的软件" class="headerlink" title="安装Nagios需要的软件"></a>安装Nagios需要的软件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ yum -y install gcc glibc glibc-common</span><br><span class="line">$ yum -y install php php-gd perl</span><br><span class="line">$ yum -y install php php-gd perl</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动 Apache的http服务</span></span><br><span class="line">$ systemctl <span class="built_in">enable</span> httpd</span><br></pre></td></tr></table></figure>
+<h2 id="添加Nagios用户"><a href="#添加Nagios用户" class="headerlink" title="添加Nagios用户"></a>添加Nagios用户</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -m nagios </span><br><span class="line">$ groupadd nagcmd</span><br><span class="line">$ usermod -G nagcmd nagios </span><br><span class="line">$ usermod -a -G nagcmd apache</span><br></pre></td></tr></table></figure>
+<h2 id="安装Nagios"><a href="#安装Nagios" class="headerlink" title="安装Nagios"></a>安装Nagios</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf nagios-4.4.3.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> nagios-4.4.3</span><br><span class="line">$ ./configure --with-command-group=nagcmd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可使用make查看所有与make配合的参数</span></span><br><span class="line">$ make all</span><br><span class="line">$ make install</span><br><span class="line">$ make install-init</span><br><span class="line">$ make install-config</span><br><span class="line">$ make install-commandmode</span><br><span class="line">$ make install-webconf</span><br></pre></td></tr></table></figure>
+<p><strong>注：</strong>安装完毕之后软件的路径为 /usr/local/nagios</p>
+<h3 id="创建登录Nagios-Web端的用户"><a href="#创建登录Nagios-Web端的用户" class="headerlink" title="创建登录Nagios Web端的用户"></a>创建登录Nagios Web端的用户</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用户名和密码均为admin</span></span><br><span class="line">$ htpasswd -bc /usr/<span class="built_in">local</span>/nagios/etc/htpasswd.users admin admin</span><br><span class="line"></span><br><span class="line"><span class="comment"># nagios默认把全部的权限分给了nagiosadmin</span></span><br><span class="line"><span class="comment"># 所以需要修改/usr/local/nagios/etc/cgi.cfg文件赋予admin权限</span></span><br><span class="line">$ sed -i <span class="string">'s#nagiosadmin#admin#g'</span> /usr/<span class="built_in">local</span>/nagios/etc/cgi.cfg</span><br><span class="line"></span><br><span class="line">$ grep admin /usr/<span class="built_in">local</span>/nagios/etc/cgi.cfg</span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line"><span class="comment"># authorized_for_system_information=admin</span></span><br><span class="line"><span class="comment"># authorized_for_configuration_information=admin</span></span><br><span class="line"><span class="comment"># authorized_for_system_commands=admin</span></span><br><span class="line"><span class="comment"># authorized_for_all_services=admin</span></span><br><span class="line"><span class="comment"># authorized_for_all_hosts=admin</span></span><br><span class="line"><span class="comment"># authorized_for_all_service_commands=admin</span></span><br><span class="line"><span class="comment"># authorized_for_all_host_commands=admin</span></span><br><span class="line"></span><br><span class="line">$ systemctl restart httpd.service</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查其主配置文件的语法是否正确</span></span><br><span class="line">$ /usr/<span class="built_in">local</span>/nagios/bin/nagios -v /usr/<span class="built_in">local</span>/nagios/etc/nagios.cfg</span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line"><span class="comment"># ......</span></span><br><span class="line"><span class="comment"># Total Warnings: 0</span></span><br><span class="line"><span class="comment"># Total Errors:   0</span></span><br><span class="line"><span class="comment"># ......</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动nagios服务（两种方式）</span></span><br><span class="line">$ systemctl start nagios</span><br><span class="line"><span class="comment"># or</span></span><br><span class="line">$ /usr/<span class="built_in">local</span>/nagios/bin/nagios -d /usr/<span class="built_in">local</span>/nagios/etc/nagios.cfg</span><br><span class="line"></span><br><span class="line">$ systemctl <span class="built_in">enable</span> nagios</span><br></pre></td></tr></table></figure>
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf nagios-plugins-2.2.1.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> nagios-plugins-2.2.1</span><br><span class="line">$ ./configure --with-nagios-user=nagios --with-nagios-group=nagios</span><br><span class="line">$ make all</span><br><span class="line">$ make install</span><br><span class="line"></span><br><span class="line">$ ls /usr/<span class="built_in">local</span>/nagios/libexec/|wc -l</span><br><span class="line"><span class="comment"># out</span></span><br><span class="line"><span class="comment"># 插件数量：58</span></span><br></pre></td></tr></table></figure>
+<p><strong>注：</strong>web浏览 <a href="http://127.0.0.1/nagios" target="_blank" rel="noopener">http://127.0.0.1/nagios</a></p>
+<h2 id="安装nrpe"><a href="#安装nrpe" class="headerlink" title="安装nrpe"></a>安装nrpe</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf nrpe-3.2.1.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> nrpe-3.2.1</span><br><span class="line">$ ./configure --with-nrpe-user=nagios \</span><br><span class="line">  --with-nrpe-group=nagios \</span><br><span class="line">  --with-nagios-user=nagios \</span><br><span class="line">  --with-nagios-group=nagios \</span><br><span class="line">  --<span class="built_in">enable</span>-command-args  \</span><br><span class="line">  --<span class="built_in">enable</span>-ssl</span><br><span class="line">$ make all</span><br><span class="line">$ make install-plugin</span><br><span class="line">$ make install-daemon</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里注意有些教程里面使用的 install-daemon-config </span></span><br><span class="line"><span class="comment"># 在之后的版本里面不能使用了改为install-config </span></span><br><span class="line">$ make install-config </span><br><span class="line"></span><br><span class="line">$ ls | grep /usr/<span class="built_in">local</span>/nagios/libexec/check_nrpe</span><br><span class="line"><span class="comment"># out</span></span><br><span class="line"><span class="comment"># check_nrpe</span></span><br></pre></td></tr></table></figure>
+<p><strong>注：</strong>到这里基本上nagios已经安装完毕，剩余配置后面再继续说，先来看被监控主机该如何配置</p>
+<h1 id="被监控主机安装-ip-10-211-55-26"><a href="#被监控主机安装-ip-10-211-55-26" class="headerlink" title="被监控主机安装(ip:10.211.55.26)"></a>被监控主机安装(ip:10.211.55.26)</h1><blockquote>
+<p>被监控主机的安装与监控主机基本相似，但只需要安装 nagios-plugin和nrpe即可</p>
+</blockquote>
+<h2 id="安装nagios-plugin"><a href="#安装nagios-plugin" class="headerlink" title="安装nagios-plugin"></a>安装nagios-plugin</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加nagios用户，并禁止登录</span></span><br><span class="line">$ useradd -s /sbin/nologin nagios</span><br><span class="line"></span><br><span class="line"><span class="comment"># 由于nrpe依赖于nagios-plugin因此需要安装nagios-plugin</span></span><br><span class="line">$ tar -zxvf nagios-plugins-2.2.1.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> nagios-plugins-2.2.1</span><br><span class="line">$ ./configure --with-nagios-user=nagios --with-nagios-group=nagios</span><br><span class="line">$ make all</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<h2 id="安装nrpe-1"><a href="#安装nrpe-1" class="headerlink" title="安装nrpe"></a>安装nrpe</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">$ tar -zxvf nrpe-3.2.1.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> nrpe-3.2.1</span><br><span class="line">$ ./configure --with-nrpe-user=nagios \</span><br><span class="line">  --with-nrpe-group=nagios \</span><br><span class="line">  --with-nagios-user=nagios \</span><br><span class="line">  --with-nagios-group=nagios \</span><br><span class="line">  --<span class="built_in">enable</span>-command-args  \</span><br><span class="line">  --<span class="built_in">enable</span>-ssl</span><br><span class="line">$ make all</span><br><span class="line">$ make install-plugin</span><br><span class="line">$ make install-daemon</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里注意有些教程里面使用的 install-daemon-config </span></span><br><span class="line"><span class="comment"># 在之后的版本里面不能使用了改为install-config </span></span><br><span class="line">$ make install-config </span><br><span class="line"></span><br><span class="line">$ ls | grep /usr/<span class="built_in">local</span>/nagios/libexec/check_nrpe</span><br><span class="line"><span class="comment"># out</span></span><br><span class="line"><span class="comment"># check_nrpe</span></span><br></pre></td></tr></table></figure>
+<h3 id="启动nrpe"><a href="#启动nrpe" class="headerlink" title="启动nrpe"></a>启动nrpe</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/<span class="built_in">local</span>/nagios/bin/nrpe -c /usr/<span class="built_in">local</span>/nagios/etc/nrpe.cfg -d</span><br><span class="line">$ netstat -nltp</span><br><span class="line"><span class="comment"># out</span></span><br><span class="line"><span class="comment"># ------</span></span><br><span class="line"><span class="comment"># ::::5666</span></span><br><span class="line"><span class="comment"># ------</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果需要重启nrpe</span></span><br><span class="line">$ pkill nrpe</span><br><span class="line">$ /usr/<span class="built_in">local</span>/nagios/bin/nrpe -c /usr/<span class="built_in">local</span>/nagios/etc/nrpe.cfg -d</span><br></pre></td></tr></table></figure>
+<h3 id="添加监控主机"><a href="#添加监控主机" class="headerlink" title="添加监控主机"></a>添加监控主机</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ vim /usr/<span class="built_in">local</span>/nagios/etc/nrpe.cfg</span><br><span class="line"><span class="comment"># modify</span></span><br><span class="line"><span class="comment"># allowed_hosts=127.0.0.1,::1 </span></span><br><span class="line"><span class="comment"># to</span></span><br><span class="line"><span class="comment"># allowed_hosts=127.0.0.1,10.211.55.24</span></span><br><span class="line"><span class="comment"># 10.211.55.24为监控主机IP，本机IP为10.211.55.26</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 重启nrpe</span></span><br><span class="line">$ pkill nrpe</span><br><span class="line">$ /usr/<span class="built_in">local</span>/nagios/bin/nrpe -c /usr/<span class="built_in">local</span>/nagios/etc/nrpe.cfg -d</span><br></pre></td></tr></table></figure>
+<h3 id="测试通信状况"><a href="#测试通信状况" class="headerlink" title="测试通信状况"></a>测试通信状况</h3><blockquote>
+<p>在监控主机上测试</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ /usr/<span class="built_in">local</span>/nagios/etc/check_nrpe -H 10.211.55.26</span><br><span class="line"><span class="comment"># out</span></span><br><span class="line"><span class="comment"># NRPE v3.2.1</span></span><br><span class="line"><span class="comment"># 通信正常</span></span><br></pre></td></tr></table></figure>
+<p><strong>注：</strong>到这里基本上被监控主机的的基本配置完成</p>
+<h1 id="使用nrpe监控被监控主机的http"><a href="#使用nrpe监控被监控主机的http" class="headerlink" title="使用nrpe监控被监控主机的http"></a>使用nrpe监控被监控主机的http</h1><h2 id="nrpe配置命令"><a href="#nrpe配置命令" class="headerlink" title="nrpe配置命令"></a>nrpe配置命令</h2><blockquote>
+<p>使用NRPE监控主机，需要将nrpe命令放在commands.cfg文件中进行定义</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">$ vim /usr/<span class="built_in">local</span>/nagios/etc/objects/commands.cfg</span><br><span class="line"><span class="comment"># 追加</span></span><br><span class="line"><span class="comment"># define command &#123;</span></span><br><span class="line"><span class="comment">#    command_name check_nrpe</span></span><br><span class="line"><span class="comment">#    command_line  $USER1$/check_nrpe -H $HOSTADDRESS$ -c $ARG1$</span></span><br><span class="line"><span class="comment"># &#125;</span></span><br><span class="line"><span class="comment"># check_nrpe 表示定义的命令名，后面可直接使用此命令</span></span><br><span class="line"><span class="comment"># command_line 后面的 -c 只能接被监控主机nrpe.cfg中定义的名称</span></span><br><span class="line"></span><br><span class="line">--------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line"><span class="comment"># 被监控主机上操作</span></span><br><span class="line">$ vim /usr/<span class="built_in">local</span>/nagios/etc/nrpe.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment">#追加</span></span><br><span class="line"><span class="built_in">command</span>[check_nginx_status]=/usr/<span class="built_in">local</span>/nagios/libexec/check_http -I 127.0.0.1 -p 80 -u /</span><br><span class="line"></span><br><span class="line"><span class="comment"># check_http命令用法</span></span><br><span class="line">$ /usr/<span class="built_in">local</span>/nagios/libexec/check_http</span><br><span class="line"><span class="comment"># out:</span></span><br><span class="line">Usage:</span><br><span class="line"> check_http -H &lt;vhost&gt; | -I &lt;IP-address&gt; [-u &lt;uri&gt;] [-p &lt;port&gt;]</span><br><span class="line">       [-J &lt;client certificate file&gt;] [-K &lt;private key&gt;]</span><br><span class="line">       [-w &lt;warn time&gt;] [-c &lt;critical time&gt;] [-t &lt;timeout&gt;] [-L] [-E] [-a auth]</span><br><span class="line">       [-b proxy_auth] [-f &lt;ok|warning|critcal|follow|sticky|stickyport&gt;]</span><br><span class="line">       [-e &lt;expect&gt;] [-d string] [-s string] [-l] [-r &lt;regex&gt; | -R &lt;<span class="keyword">case</span>-insensitive regex&gt;]</span><br><span class="line">       [-P string] [-m &lt;min_pg_size&gt;:&lt;max_pg_size&gt;] [-4|-6] [-N] [-M &lt;age&gt;]</span><br><span class="line">       [-A string] [-k string] [-S &lt;version&gt;] [--sni] [-C &lt;warn_age&gt;[,&lt;crit_age&gt;]]</span><br><span class="line">       [-T &lt;content-type&gt;] [-j method]</span><br><span class="line">       </span><br><span class="line">--------------------------------------------------------------------</span><br><span class="line"><span class="comment"># 监控主机上操作</span></span><br><span class="line">$ /usr/<span class="built_in">local</span>/nagios/libexec/check_nrpe -H 10.211.55.26 -c check_nginx_status</span><br><span class="line"><span class="comment"># out</span></span><br><span class="line"><span class="comment"># HTTP OK: HTTP/1.1 200 OK - 8885 bytes in 0.004 second response time |time=0.004469s;;;0.000000 size=8885B;;;0</span></span><br><span class="line"><span class="comment"># 表示命令调用正常</span></span><br></pre></td></tr></table></figure>
+<h2 id="自定义host和service"><a href="#自定义host和service" class="headerlink" title="自定义host和service"></a>自定义host和service</h2><p><strong>监控主机下操作</strong></p>
+<blockquote>
+<p>check_nrpe命令定义完毕后，还需要定义一个host和service在模板文件中(/usr/local/nagios/etc/objects/templates.cfg),用于以后的主机和服务引用<br>一般情况下单独定一个cfg文件，然后将这个文件在nagios.cfg文件中引用即可</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">$ vim /usr/<span class="built_in">local</span>/nagios/etc/objects/templates.cfg</span><br><span class="line"><span class="comment"># 追加</span></span><br><span class="line">define host &#123;</span><br><span class="line">    name                  iothost</span><br><span class="line">    use                   generic-host</span><br><span class="line">    check_period          24x7</span><br><span class="line">    check_interval        5</span><br><span class="line">    retry_interval        1</span><br><span class="line">    max_check_attempts    10</span><br><span class="line">    check_command         check-host-alive</span><br><span class="line">    notification_period   workhours</span><br><span class="line">    notification_interval 120</span><br><span class="line">    notification_options  d,u,r</span><br><span class="line">    contact_groups        admins</span><br><span class="line">    register              0</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define service &#123;</span><br><span class="line">    name                   iotservice</span><br><span class="line">    use                    generic-service</span><br><span class="line">    max_check_attempts     4</span><br><span class="line">    normal_check_interval  5</span><br><span class="line">    retry_check_interval   1</span><br><span class="line">    register               0</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">--------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">$ mkdir /usr/<span class="built_in">local</span>/nagios/etc/monitor-hosts</span><br><span class="line">$ <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/nagios/etc/monitor-hosts</span><br><span class="line"></span><br><span class="line">$ vim nginx.cfg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加如下内容</span></span><br><span class="line">define host &#123;</span><br><span class="line">    use            iothost <span class="comment"># 这里需要使用在templates.cfg中定义的</span></span><br><span class="line">    host_name      web1-nginx <span class="comment"># 唯一</span></span><br><span class="line">    <span class="built_in">alias</span>          nginx_NRPE</span><br><span class="line">    address        10.211.55.26</span><br><span class="line">    check_command  check-host-alive</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">define service &#123;</span><br><span class="line">    use                  iotservice <span class="comment"># 这里需要使用在templates.cfg中定义的</span></span><br><span class="line">    host_name            web1-nginx <span class="comment">#与主机名一致</span></span><br><span class="line">    service_description  check-wagang-web1-nginx</span><br><span class="line">    check_command        check_nrpe!check_nginx_status</span><br><span class="line">    <span class="comment"># check_nginx_status 为在被监控主机上定义的命令</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$ vim /usr/<span class="built_in">local</span>/nagios/etc/nagios.cfg</span><br><span class="line"><span class="comment"># 追加</span></span><br><span class="line">cfg_dir=/usr/<span class="built_in">local</span>/nagios/etc/monitor-hosts</span><br></pre></td></tr></table></figure>
+<p>然后可在监控端看到具体的监控状况</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><ul>
+<li><a href="https://www.cnblogs.com/kylinlin/p/4574207.html" target="_blank" rel="noopener">CentOS7安装nagios并配置出图详解</a></li>
+<li><a href="https://www.ilanni.com/?p=5048" target="_blank" rel="noopener">烂泥：学习Nagios（一）：Nagios安装</a></li>
+<li><a href="https://www.ilanni.com/?p=9136" target="_blank" rel="noopener">烂泥：学习Nagios（二）：Nagios配置</a></li>
+<li><a href="https://www.ilanni.com/?p=9241#%E5%9B%9B%E3%80%81%E9%80%9A%E8%BF%87NRPE%E7%9B%91%E6%8E%A7%E4%B8%BB%E6%9C%BA" target="_blank" rel="noopener">烂泥：学习Nagios（三）： NRPE安装及配置</a></li>
+<li><a href="https://blog.csdn.net/ronmy/article/details/68926462" target="_blank" rel="noopener">Nagios利用NRPE监控Linux主机</a></li>
+<li><a href="https://www.idcyunwei.org/post/93.html" target="_blank" rel="noopener">nagios使用check_http监控网页及用法实例</a></li>
+<li><a href="https://www.linuxidc.com/Linux/2014-07/104072.htm" target="_blank" rel="noopener">Nagios监控Nginx服务详细过程</a></li>
+<li><a href="https://blog.csdn.net/mchdba/article/details/36903141" target="_blank" rel="noopener">Nagios监控nginx服务详细过程</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/Nagios/" rel="tag"># Nagios</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/07/SSH三大利器-ssh、scp、sftp/" rel="next" title="SSH三大利器-ssh、scp、sftp">
+                <i class="fa fa-chevron-left"></i> SSH三大利器-ssh、scp、sftp
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Eilene</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/myTeemo" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:mingyang.hey@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                FRIENDS
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://yuuuuuy.top" title="Jae" target="_blank">Jae</a>
+                  </li>
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://blog.csdn.net/zhao__zhen" title="阿振" target="_blank">阿振</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#版本信息"><span class="nav-number">1.</span> <span class="nav-text">版本信息</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关闭防火墙"><span class="nav-number">2.</span> <span class="nav-text">关闭防火墙</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#监控主机配置-ip-10-211-55-24"><span class="nav-number">3.</span> <span class="nav-text">监控主机配置(ip:10.211.55.24)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Nagios需要的软件"><span class="nav-number">3.1.</span> <span class="nav-text">安装Nagios需要的软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加Nagios用户"><span class="nav-number">3.2.</span> <span class="nav-text">添加Nagios用户</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Nagios"><span class="nav-number">3.3.</span> <span class="nav-text">安装Nagios</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建登录Nagios-Web端的用户"><span class="nav-number">3.3.1.</span> <span class="nav-text">创建登录Nagios Web端的用户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装插件"><span class="nav-number">3.4.</span> <span class="nav-text">安装插件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装nrpe"><span class="nav-number">3.5.</span> <span class="nav-text">安装nrpe</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#被监控主机安装-ip-10-211-55-26"><span class="nav-number">4.</span> <span class="nav-text">被监控主机安装(ip:10.211.55.26)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装nagios-plugin"><span class="nav-number">4.1.</span> <span class="nav-text">安装nagios-plugin</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装nrpe-1"><span class="nav-number">4.2.</span> <span class="nav-text">安装nrpe</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#启动nrpe"><span class="nav-number">4.2.1.</span> <span class="nav-text">启动nrpe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加监控主机"><span class="nav-number">4.2.2.</span> <span class="nav-text">添加监控主机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试通信状况"><span class="nav-number">4.2.3.</span> <span class="nav-text">测试通信状况</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#使用nrpe监控被监控主机的http"><span class="nav-number">5.</span> <span class="nav-text">使用nrpe监控被监控主机的http</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nrpe配置命令"><span class="nav-number">5.1.</span> <span class="nav-text">nrpe配置命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义host和service"><span class="nav-number">5.2.</span> <span class="nav-text">自定义host和service</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">6.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Eilene</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
